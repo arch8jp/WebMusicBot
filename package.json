@@ -1,0 +1,26 @@
+{
+  "name": "musicbot",
+  "version": "1.0.0",
+  "description": "Discord music bot with web controller",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuta0801/musicbot.git"
+  },
+  "author": "yuta0801",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuta0801/musicbot/issues"
+  },
+  "homepage": "https://github.com/yuta0801/musicbot#readme",
+  "dependencies": {
+    "discord.js": "^11.2.1",
+    "mime-types": "^2.1.17",
+    "request": "^2.83.0",
+    "socket.io": "^2.0.4",
+    "ytdl-core": "^0.18.1"
+  }
+}

@@ -1,0 +1,49 @@
+body {
+	text-align: center;
+}
+
+ul#results {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+li.movie img {
+	float: left;
+	width: 120px;
+	padding: 10px;
+}
+
+#wrapper {
+	overflow-x: scroll;
+}
+
+#list {
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+	height: 72px;
+}
+
+#list li {
+	display: inline-block;
+}
+
+#list li:first-child {
+	background: #afa;
+}
+
+#list li img {
+	float: left;
+	width: 120px;
+	padding: 0 2px;
+}
+
+.movie {
+	cursor: pointer;
+}
+
+.movie:hover {
+	opacity: 0.9;
+}
+

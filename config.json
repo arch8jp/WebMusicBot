@@ -1,0 +1,7 @@
+{
+  "apikey" : "",
+  "token" : "",
+  "channelId" : "",
+  "loop": false,
+  "port": 8080
+}
