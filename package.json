@@ -1,6 +1,6 @@
 {
   "name": "musicbot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Discord music bot with web controller",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,9 @@
   "homepage": "https://github.com/yuta0801/musicbot#readme",
   "dependencies": {
     "discord.js": "^11.2.1",
-    "mime-types": "^2.1.17",
+    "express": "^4.16.2",
+    "ffmpeg-binaries": "^3.2.2-3",
+    "opusscript": "0.0.4",
     "request": "^2.83.0",
     "socket.io": "^2.0.4",
     "ytdl-core": "^0.18.1"
