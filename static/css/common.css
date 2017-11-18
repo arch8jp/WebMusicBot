@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'M+ 1p light';
+  src: local('mplus'), url('../fonts/mplus-1p-light.ttf');
+}
+
+body {
+  font-family: "M+ 1p light";
+  margin: 0;
+  padding: 0;
+  /*background: #36393e;
+  color: #fff;*/
+}
+
+.container {
+  margin: 0 auto;
+  text-align: center;
+}

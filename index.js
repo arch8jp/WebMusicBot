@@ -1,96 +1,71 @@
-const app = require('http').createServer(handler)
-const io = require('socket.io')(app)
+const Discord = require('discord.js')
+const client = new Discord.Client()
+const express = require('express')
+const app = express()
+const server = app.listen(80)
+const io = require('socket.io').listen(server)
 const path = require('path')
-const fs = require('fs')
-const mime = require('mime-types')
-const req = require('request')
-const ytdl = require('ytdl-core')
-const discord = require('discord.js')
-const client = new discord.Client()
-const config = require('./config')
+const search = require('./search')
+const VoiceChannel = require('./VoiceChannel')
+const config = require('./config.json')
+const guilds = new Map()
 
-let isPlaying = false
-let list = []
-let voiceChannel
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+
+app.get('/controller/:id', (req, res) => {
+  const channel = client.channels.get(req.params.id)
+  if (!channel || channel.type !== 'voice') return res.send('不正なチャンネルID')
+  const guild = channel.guild.id
+  if (guilds.has(guild)) {
+    // 同じギルドのボイチャに参加済み
+    if (guilds.get(guild).id !== channel.id)
+      return res.send('同ギルド内のボイチャに参加済み')
+      // res.send('同じギルドのボイスチャットに参加しています')
+  } else {
+    // Botが参加していない
+    guilds.set(guild, new VoiceChannel(channel, queue => {
+      io.to(guild).emit('list', queue)
+    }))
+  }
+  res.render('controller', { id: guild })
+})
+
+app.use('/', express.static(path.join(__dirname, 'static')))
 
 io.sockets.on('connection', socket => {
-  socket.emit('list', list)
+  socket.on('init', id => {
+    socket.join(id)
+    socket.emit('list', guilds.get(id).queue | [])
+    socket.emit('volume', guilds.get(id).volume * 100)
+  })
 
   socket.on('q', data => {
-    req.get({
-      uri: 'https://www.googleapis.com/youtube/v3/search',
-      headers: {'Content-type': 'application/json'},
-      qs: {
-        q: data,
-        part: 'snippet',
-        type: 'video',
-        key: config.apikey,
-        maxResults: 30
-      },
-      json: true
-    }, (error, req, data) => {
-      if (error) socket.emit('error', error)
-      else socket.emit('result', data)
-    })
+    if (!search[data.type]) socket.emit('err', `不正な取得方法 - ${data.type}`)
+    else search[data.type](data.q)
+      .then(data => socket.emit('result', data))
+      .catch(error => socket.emit('err', error))
   })
 
   socket.on('add', data => {
-    list.push(data)
-
-    io.sockets.emit('list', list)
-    if (!isPlaying) loop()
+    if (!guilds.has(data.guild)) socket.emit('err', '定義されていないギルド')
+    else guilds.get(data.guild).add(data).then(list => {
+      io.to(data.guild).emit('list', list)
+    })//最大件数とか .catch(error => socket.emit('err', error))
   })
 
-  socket.on('allset', data => {
-    list = [list[0], ...data]
-    io.sockets.emit('list', list)
-    if (!isPlaying) loop()
+  socket.on('volume', data => {
+    if (!guilds.has(data.id)) return socket.emit('err', '定義されていないギルド')
+    guilds.get(data.id).setVolume(data.volume)
+      .then(volume => io.to(data.id).emit('volume', volume))
+      .catch(error => socket.emit('err', error))
   })
 })
 
-function loop () {
-  if (!list[0]) return
-  isPlaying = true
-  voiceChannel.join().then(connnection => {
-    const stream = ytdl(`https://www.youtube.com/watch?v=${list[0].id}`, {filter: 'audioonly'})
-    connnection.playStream(stream).on('end', () => {
-      isPlaying = false
-      if (config.loop) list.push(list[0])
-      list.shift()
-      loop()
-      io.sockets.emit('socket', list)
-    })
-  })
-}
-
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
-  voiceChannel = client.channels.get(config.channelId)
-  loop()
 })
 
 client.login(config.token)
 
-function handler (req, res) {
-  const pathname = (req.url === '/') ? 'index.html' : req.url
-  const uri = path.join(__dirname, 'app/', pathname)
-  fs.readFile(uri, 'binary', (error, data) => {
-    if (error && error.code === 'ENOENT') {
-      res.writeHead(404)
-      res.write('404 Not Found\n')
-      res.end()
-    } else if (error) {
-      res.writeHead(500)
-      res.write(error + '\n')
-      res.end()
-    } else {
-      res.writeHead(200, {
-        'Content-Type': mime.lookup(pathname)
-      })
-      res.write(data, 'binary')
-      res.end()
-    }
-  })
-}
-
-app.listen(config.port)
+process.on('unhandledRejection', console.log)
