@@ -1,13 +1,13 @@
+const config = require('./config.json')
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const express = require('express')
 const app = express()
-const server = app.listen(80)
+const server = app.listen(config.port)
 const io = require('socket.io').listen(server)
 const path = require('path')
 const search = require('./search')
 const VoiceChannel = require('./VoiceChannel')
-const config = require('./config.json')
 const guilds = new Map()
 
 app.set('views', path.join(__dirname, 'views'))
@@ -36,8 +36,8 @@ app.use('/', express.static(path.join(__dirname, 'static')))
 io.sockets.on('connection', socket => {
   socket.on('init', id => {
     socket.join(id)
-    socket.emit('list', guilds.get(id).queue | [])
-    socket.emit('volume', guilds.get(id).volume * 100)
+    socket.emit('list', guilds.get(id).queue || [])
+    socket.emit('volume', guilds.get(id).volume)
   })
 
   socket.on('q', data => {
