@@ -18,6 +18,7 @@
   "homepage": "https://github.com/yuta0801/musicbot#readme",
   "dependencies": {
     "discord.js": "^11.2.1",
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
     "ffmpeg-binaries": "^3.2.2-3",
     "opusscript": "0.0.4",
