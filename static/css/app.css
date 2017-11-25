@@ -18,14 +18,11 @@
 
 .wrapper {
   overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 #list {
   height: 72px;
-}
-
-#list li:first-child {
-  background: #afa;
 }
 
 #list li img {
@@ -41,9 +38,8 @@
 }
 
 .movie img {
-  display: inline-block;
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .movie div {
