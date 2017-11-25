@@ -16,6 +16,15 @@ class VoiceChannel {
       this.queue.push(data)
       resolve(this.queue)
       if (!this.playing || this.queue[0]) this.loop()
+      // TODO: 最大件数とか
+    })
+  }
+
+  remove(index) {
+    return new Promise((resolve, reject) => {
+      if (typeof index !== 'number' || index === 0) return reject('不正な値')
+      this.queue.splice(index, 1)
+      resolve(this.queue)
     })
   }
 
