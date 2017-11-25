@@ -57,6 +57,13 @@ io.sockets.on('connection', socket => {
       .catch(error => socket.emit('err', error))
   })
 
+  socket.on('remove', data => {
+    if (!guilds.has(data.id)) socket.emit('err', '定義されていないギルド')
+    else guilds.get(data.id).remove(data.index)
+      .then(list => io.to(data.id).emit('list', list))
+      .catch(error => socket.emit('err', error))
+  })
+
   socket.on('volume', data => {
     if (!guilds.has(data.id)) socket.emit('err', '定義されていないギルド')
     else guilds.get(data.id).setVolume(data.volume)

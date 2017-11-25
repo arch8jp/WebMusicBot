@@ -23,11 +23,9 @@
 
 #list {
   height: 72px;
-}
-
-#list li img {
-  float: left;
-  padding: 0 2px;
+  white-space: nowrap;
+  padding: 0;
+  margin: 0;
 }
 
 .movie {
@@ -42,7 +40,7 @@
   height: 100%;
 }
 
-.movie div {
+.movie div.title {
   position: absolute;
   top: 0;
   left: 0;
@@ -54,8 +52,20 @@
   opacity: 0;
 }
 
-.movie div:hover {
+.movie div.title:hover {
   opacity: 1;
+}
+
+#remove {
+  cursor: pointer;
+  position: absolute;
+  right: 2px;
+  top: -3px;
+  color: red;
+}
+
+#list li:first-child #remove {
+  display: none;
 }
 
 .error {

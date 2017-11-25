@@ -31,7 +31,8 @@ socket.on('list', data => {
     $('#list').append(`
       <li class="movie">
         <img src="${item.img}" alt="${item.title}">
-        <div>${item.title}</div>
+        <div class="title">${item.title}</div>
+        <div id="remove">X</div>
       </li>`
     )
   }
@@ -44,7 +45,7 @@ socket.on('result', data => {
     $('#results').append(`
       <li class="movie">
         <img src="${item.snippet.thumbnails.medium.url}" alt="${item.snippet.title}" data-video-id="${item.id.videoId}">
-        <div>${item.snippet.title}</div>
+        <div class="title">${item.snippet.title}</div>
       </li>`)
   }
 })
@@ -64,6 +65,12 @@ $(document).on('click', '#results>li', function() {
   }
   console.log('socket', 'emit', 'add', data)
   socket.emit('add', data)
+})
+
+$(document).on('click', '#remove', function() {
+  const data = { index: $('#list>li').index($(this).parent()), id: guild }
+  console.log('socket', 'emit', 'remove', data)
+  socket.emit('remove', data)
 })
 
 $('#volume').on('input', function() {
