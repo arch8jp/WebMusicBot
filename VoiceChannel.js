@@ -8,7 +8,7 @@ class VoiceChannel {
     this.queue = []
     this.playing = false
     this.callback = callback
-    this.volume = 1
+    this.volume = 100
   }
 
   add(data) {

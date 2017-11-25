@@ -1,7 +1,8 @@
+const guild = $('#id').val()
 const socket = io.connect()
 
-console.log('socket', 'emit', 'init', $('#id').val())
-socket.emit('init', $('#id').val())
+console.log('socket', 'emit', 'init', guild)
+socket.emit('init', guild)
 
 socket.on('connect', () => {
   console.log('socket', 'connect')
@@ -59,14 +60,14 @@ $(document).on('click', '#results>li', function() {
     id: target.data('video-id'),
     img: target.attr('src'),
     title: target.attr('alt'),
-    guild: $('#id').val(),
+    guild: guild,
   }
   console.log('socket', 'emit', 'add', data)
   socket.emit('add', data)
 })
 
-$('#volume').on('mouseup', function() {
-  const data = { volume: $(this).val(), id: $('#id').val() }
+$('#volume').on('input', function() {
+  const data = { volume: $(this).val(), id: guild }
   console.log('socket', 'emit', 'volume', data)
   socket.emit('volume', data)
 })

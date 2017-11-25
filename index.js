@@ -16,19 +16,22 @@ app.set('view engine', 'ejs')
 app.get('/controller/:id', (req, res) => {
   const channel = client.channels.get(req.params.id)
   if (!channel || channel.type !== 'voice') return res.send('不正なチャンネルID')
-  const guild = channel.guild.id
-  if (guilds.has(guild)) {
+  const guild = channel.guild
+  if (guilds.has(guild.id)) {
     // 同じギルドのボイチャに参加済み
-    if (guilds.get(guild).id !== channel.id)
+    if (guilds.get(guild.id).id !== channel.id)
       return res.send('同ギルド内のボイチャに参加済み')
       // res.send('同じギルドのボイスチャットに参加しています')
   } else {
     // Botが参加していない
-    guilds.set(guild, new VoiceChannel(channel, queue => {
-      io.to(guild).emit('list', queue)
+    guilds.set(guild.id, new VoiceChannel(channel, queue => {
+      io.to(guild.id).emit('list', queue)
     }))
   }
-  res.render('controller', { id: guild })
+  res.render('controller', {
+    name: `${guild.name}🔈${channel.name}`,
+    id: guild.id,
+  })
 })
 
 app.use('/', express.static(path.join(__dirname, 'static')))
@@ -49,14 +52,14 @@ io.sockets.on('connection', socket => {
 
   socket.on('add', data => {
     if (!guilds.has(data.guild)) socket.emit('err', '定義されていないギルド')
-    else guilds.get(data.guild).add(data).then(list => {
-      io.to(data.guild).emit('list', list)
-    })//最大件数とか .catch(error => socket.emit('err', error))
+    else guilds.get(data.guild).add(data)
+      .then(list => io.to(data.guild).emit('list', list))
+      .catch(error => socket.emit('err', error))
   })
 
   socket.on('volume', data => {
-    if (!guilds.has(data.id)) return socket.emit('err', '定義されていないギルド')
-    guilds.get(data.id).setVolume(data.volume)
+    if (!guilds.has(data.id)) socket.emit('err', '定義されていないギルド')
+    else guilds.get(data.id).setVolume(data.volume)
       .then(volume => io.to(data.id).emit('volume', volume))
       .catch(error => socket.emit('err', error))
   })
