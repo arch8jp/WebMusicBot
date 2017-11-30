@@ -1,4 +1,9 @@
 {
+  "client": {
+    "id": "",
+    "secret": "",
+    "callback": ""
+  },
   "apikey": "",
   "token": "",
   "port": 80
