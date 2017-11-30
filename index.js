@@ -5,13 +5,34 @@ const express = require('express')
 const app = express()
 const server = app.listen(config.port)
 const io = require('socket.io').listen(server)
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
 const path = require('path')
+const discord = require('./discord')
 const search = require('./search')
 const VoiceChannel = require('./VoiceChannel')
 const guilds = new Map()
 
+const sessionMiddleware = session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: false,
+  rolling : true,
+  store: new MongoStore({
+    url: 'mongodb://localhost/musicbot',
+    ttl: 60 * 60 * 14 * 24,
+  }),
+  cookie:{
+    httpOnly: true,
+    secure: false,
+    maxage: 1000 * 60 * 60 * 24 * 30,
+  },
+})
+
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
+
+app.use(sessionMiddleware)
 
 app.get('/controller/:id', (req, res) => {
   const channel = client.channels.get(req.params.id)
@@ -35,6 +56,14 @@ app.get('/controller/:id', (req, res) => {
 })
 
 app.use('/', express.static(path.join(__dirname, 'static')))
+
+app.get('/login', discord.login)
+app.get('/logout', discord.logout)
+app.get('/callback', discord.callback)
+
+io.use((socket, next) => {
+  sessionMiddleware(socket.request, socket.request.res, next)
+})
 
 io.sockets.on('connection', socket => {
   socket.on('init', id => {
