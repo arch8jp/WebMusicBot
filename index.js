@@ -71,9 +71,8 @@ io.sockets.on('connection', socket => {
     socket.emit('volume', guilds.get(id).volume)
   })
 
-  socket.on('q', data => {
-    if (!search[data.type]) socket.emit('err', `不正な取得方法 - ${data.type}`)
-    else search[data.type](data.q)
+  socket.on('q', q => {
+    search(q)
       .then(data => socket.emit('result', data))
       .catch(error => socket.emit('err', error))
   })

@@ -12,14 +12,8 @@ socket.on('connect', () => {
 $('#q').focus()
 
 $('#search').submit(() => {
-  console.log('socket', 'emit', 'q', {
-    q: $('#q').val(),
-    type: $('select').val(),
-  })
-  socket.emit('q', {
-    q: $('#q').val(),
-    type: $('select').val(),
-  })
+  console.log('socket', 'emit', 'q', $('#q').val())
+  socket.emit('q', $('#q').val())
   return false
 })
 
