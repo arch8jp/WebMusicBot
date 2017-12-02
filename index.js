@@ -42,7 +42,6 @@ app.get('/controller/:id', (req, res) => {
     // 同じギルドのボイチャに参加済み
     if (guilds.get(guild.id).id !== channel.id)
       return res.send('同ギルド内のボイチャに参加済み')
-      // res.send('同じギルドのボイスチャットに参加しています')
   } else {
     // Botが参加していない
     guilds.set(guild.id, new VoiceChannel(channel, queue => {
