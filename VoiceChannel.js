@@ -8,10 +8,7 @@ class VoiceChannel {
     this.queue = []
     this.playing = false
     this.callback = callback
-    this.channel.join().then(connection => {
-      this.connection = connection
-      this.dispatcher = connection.dispatcher
-    }).catch(console.error)
+    this.volume = 100
   }
 
   add(data) {
@@ -34,20 +31,23 @@ class VoiceChannel {
   loop() {
     if (this.playing || !this.queue[0]) return
     this.playing = true
-    // if (!this.guild.voiceConnection) this.channel.join()
     const stream = ytdl(`https://www.youtube.com/watch?v=${this.queue[0].id}`, {filter: 'audioonly'})
-    this.connection.playStream(stream).on('end', () => {
-      this.playing = false
-      this.queue.shift()
-      this.callback(this.queue)
-      this.loop()
-    })
+    this.channel.join().then(connection => {
+      this.dispatcher = connection.playStream(stream).on('end', () => {
+        this.playing = false
+        this.queue.shift()
+        this.callback(this.queue)
+        this.loop()
+      })
+    }).catch(console.error)
   }
 
   setVolume(volume) {
     return new Promise((resolve, reject) => {
+      if (this.volume === volume) return
       if (!this.dispatcher) return reject('不正なディスパッチャ')
       this.dispatcher.setVolume(volume / 100)
+      this.volume = volume
       resolve(volume)
     })
   }
