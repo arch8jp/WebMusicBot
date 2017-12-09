@@ -9,8 +9,6 @@ socket.on('connect', () => {
   $('#loading').addClass('completed')
 })
 
-$('#q').focus()
-
 $('#search').submit(() => {
   console.log('socket', 'emit', 'q', $('#q').val())
   socket.emit('q', $('#q').val())
@@ -67,7 +65,9 @@ $(document).on('click', '#remove', function() {
   socket.emit('remove', data)
 })
 
-$('#volume').on('input', function() {
+$('#volume').slider({
+  formatter: value => parseInt(value / 2) + '%',
+}).on('slide', function() {
   const data = { volume: $(this).val(), id: guild }
   console.log('socket', 'emit', 'volume', data)
   socket.emit('volume', data)
@@ -75,7 +75,7 @@ $('#volume').on('input', function() {
 
 socket.on('volume', volume => {
   console.log('socket', 'on', 'volume', volume)
-  $('#volume').val(volume)
+  $('#volume').slider('setValue', volume)
 })
 
 function videoEle(params) {
