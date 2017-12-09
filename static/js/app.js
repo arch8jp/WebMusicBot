@@ -35,6 +35,7 @@ socket.on('result', data => {
       img: item.snippet.thumbnails.medium.url,
       title: item.snippet.title,
       id: item.id.videoId,
+      channel: item.snippet.channelTitle,
     }))
   }
 })
@@ -90,6 +91,7 @@ function videoEle(params) {
           </div>
           <div class="col-9">
             <h5>${params.title}</h5>
+            <small>by ${params.channel}</small>
           </div>
           <div class="col-1">
             <button type="button" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true" id="add"></i></button>
