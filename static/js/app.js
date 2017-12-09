@@ -46,12 +46,12 @@ socket.on('err', error => {
   $('.error').show().text(error).delay(3000).fadeOut()
 })
 
-$(document).on('click', '#results>li', function() {
-  const target = $(this).find('img')
+$(document).on('click', '#add', function() {
+  const target = $(this).parents('li')
   const data = {
     id: target.data('video-id'),
-    img: target.attr('src'),
-    title: target.attr('alt'),
+    img: target.find('img').attr('src'),
+    title: target.find('h5').text(),
     guild: guild,
   }
   console.log('socket', 'emit', 'add', data)
@@ -59,7 +59,10 @@ $(document).on('click', '#results>li', function() {
 })
 
 $(document).on('click', '#remove', function() {
-  const data = { index: $('#list>li').index($(this).parent()), id: guild }
+  const data = {
+    index: $('#list>li').index($(this).parent()),
+    id: guild,
+  }
   console.log('socket', 'emit', 'remove', data)
   socket.emit('remove', data)
 })
@@ -76,21 +79,20 @@ socket.on('volume', volume => {
 })
 
 function videoEle(params) {
-  console.log(params)
   let ele = null
   if (params.id) {
     // 検索結果
     ele = `
-      <li class="list-group-item movie text-left">
+      <li class="list-group-item movie text-left" data-video-id="${params.id}">
         <div class="row">
           <div class="col-2">
-            <img class="rounded img-fluid" src="${params.img}" alt="${params.title}" data-video-id="${params.id}">
+            <img class="rounded img-fluid" src="${params.img}" alt="${params.title}">
           </div>
           <div class="col-9">
             <h5>${params.title}</h5>
           </div>
           <div class="col-1">
-            <button type="button" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i></button>
+            <button type="button" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true" id="add"></i></button>
           </div>
         </div>
       </li>`
