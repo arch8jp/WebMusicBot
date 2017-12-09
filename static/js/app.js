@@ -22,13 +22,10 @@ socket.on('list', data => {
   $('#list').empty()
   if (!Array.isArray(data)) return
   for (const item of data) {
-    $('#list').append(`
-      <li class="movie">
-        <img src="${item.img}" alt="${item.title}">
-        <div class="title">${item.title}</div>
-        <div id="remove">X</div>
-      </li>`
-    )
+    $('#list').append(videoEle({
+      img: item.img,
+      title: item.title,
+    }))
   }
 })
 
@@ -36,11 +33,11 @@ socket.on('result', data => {
   console.log('socket', 'on', 'result', data)
   $('#results').empty()
   for (const item of data.items) {
-    $('#results').append(`
-      <li class="movie">
-        <img src="${item.snippet.thumbnails.medium.url}" alt="${item.snippet.title}" data-video-id="${item.id.videoId}">
-        <div class="title">${item.snippet.title}</div>
-      </li>`)
+    $('#results').append(videoEle({
+      img: item.snippet.thumbnails.medium.url,
+      title: item.snippet.title,
+      id: item.id.videoId,
+    }))
   }
 })
 
@@ -77,3 +74,42 @@ socket.on('volume', volume => {
   console.log('socket', 'on', 'volume', volume)
   $('#volume').val(volume)
 })
+
+function videoEle(params) {
+  console.log(params)
+  let ele = null
+  if (params.id) {
+    // 検索結果
+    ele = `
+      <li class="list-group-item movie text-left">
+        <div class="row">
+          <div class="col-2">
+            <img class="rounded img-fluid" src="${params.img}" alt="${params.title}" data-video-id="${params.id}">
+          </div>
+          <div class="col-9">
+            <h5>${params.title}</h5>
+          </div>
+          <div class="col-1">
+            <button type="button" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </li>`
+  } else {
+    // キュー
+    ele = `
+      <li class="list-group-item movie text-left">
+        <div class="row">
+          <div class="col-3">
+            <img class="rounded img-fluid" src="${params.img}" alt="${params.title}">
+          </div>
+          <div class="col-8">
+            <h5>${params.title}</h5>
+          </div>
+          <div class="col-1">
+            <button type="button" class="btn btn-primary float-right" id="remove"><i class="fa fa-times" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </li>`
+  }
+  return ele
+}
