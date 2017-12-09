@@ -45,7 +45,7 @@ class VoiceChannel {
   setVolume(volume) {
     return new Promise((resolve, reject) => {
       if (this.volume === volume) return
-      if (!this.dispatcher) return reject('不正なディスパッチャ')
+      if (!this.dispatcher) return reject('再生していません')
       this.dispatcher.setVolume(volume / 100)
       this.volume = volume
       resolve(volume)

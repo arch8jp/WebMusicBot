@@ -94,7 +94,7 @@ io.sockets.on('connection', socket => {
   socket.on('volume', data => {
     if (!guilds.has(data.id)) socket.emit('err', '定義されていないギルド')
     else guilds.get(data.id).setVolume(data.volume)
-      .then(volume => io.to(data.id).emit('volume', volume))
+      .then(volume => socket.broadcast.to(data.id).emit('volume', volume))
       .catch(error => socket.emit('err', error))
   })
 })
