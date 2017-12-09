@@ -14,7 +14,6 @@
     <div class="mt-2"></div>
     <div class="container text-center">
         <h1><%= name %></h1>
-        <small>ID : <%- id %></small>
         <hr />
         <!-- エラー表示用 -->
         <div class="alert alert-danger error" style="display:none;"></div>
@@ -33,7 +32,7 @@
             <div class="tab-pane fade show active" id="queue" role="tabpanel" aria-labelledby="home-tab">
                 <div class="mt-2"></div>
                 <div class="wrapper">
-                    <ul id="list"></ul>
+                    <ul class="list-group" id="list"></ul>
                 </div>
             </div>
             <div class="tab-pane fade" id="search" role="tabpanel" aria-labelledby="profile-tab">
@@ -51,7 +50,7 @@
                         </span>
                     </div>
                 </form>
-                <ul id="results">
+                <ul class="list-group" id="results">
                 </ul>
             </div>
             <div class="tab-pane fade" id="control" role="tabpanel" aria-labelledby="contact-tab">
