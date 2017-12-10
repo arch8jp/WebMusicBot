@@ -1,5 +1,5 @@
 const request = require('request')
-const config = require('./config')
+require('dotenv').config()
 
 module.exports = q => {
   return new Promise((resolve, reject) => {
@@ -10,7 +10,7 @@ module.exports = q => {
         q: q,
         part: 'snippet',
         type: 'video',
-        key: config.apikey,
+        key: process.env.YOUTUBE_APIKEY,
         maxResults: 30,
       },
       json: true,
