@@ -1,11 +1,17 @@
 const request = require('request')
-const config = require('./config.json')
+require('dotenv').config()
+
+const client = {
+  id: process.env.CLIENT_ID,
+  secret: process.env.CLIENT_SECRET,
+  callback: process.env.CLIENT_CALLBACK,
+}
 
 module.exports = {
   login: (req, res) => {
     res.redirect('https://discordapp.com/oauth2/authorize'+
-      `?response_type=code&client_id=${config.client.id}&scope=identify`+
-      `&redirect_uri=${encodeURIComponent(config.client.callback)}`)
+      `?response_type=code&client_id=${client.id}&scope=identify`+
+      `&redirect_uri=${encodeURIComponent(client.callback)}`)
   },
   logout: (req, res) => {
     req.session.destroy()
@@ -36,11 +42,11 @@ function getToken(code, callback) {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     formData: {
-      client_id: config.client.id,
-      client_secret: config.client.secret,
+      client_id: client.id,
+      client_secret: client.secret,
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: config.client.callback,
+      redirect_uri: client.callback,
     },
     json: true,
   }, (err, res, data) => {

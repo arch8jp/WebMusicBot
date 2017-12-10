@@ -1,9 +1,9 @@
-const config = require('./config.json')
+require('dotenv').config()
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const express = require('express')
 const app = express()
-const server = app.listen(config.port)
+const server = app.listen(process.env.SERVER_PORT * 1)
 const io = require('socket.io').listen(server)
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
@@ -103,6 +103,6 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
 })
 
-client.login(config.token)
+client.login(process.env.DISCORD_TOKEN)
 
 process.on('unhandledRejection', console.log)
