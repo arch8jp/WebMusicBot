@@ -54,7 +54,7 @@ app.get('/controller/:id', (req, res) => {
   })
 })
 
-app.use('/', express.static(path.join(__dirname, 'static')))
+app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.get('/login', discord.login)
 app.get('/logout', discord.logout)
