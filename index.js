@@ -49,7 +49,8 @@ app.get('/controller/:id', (req, res) => {
     }))
   }
   res.render('controller', {
-    name: `${guild.name}🔈${channel.name}`,
+    guild: guild.name,
+    channel: channel.name,
     id: guild.id,
   })
 })
