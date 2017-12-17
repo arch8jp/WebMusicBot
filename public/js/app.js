@@ -93,8 +93,8 @@ function videoEle(params) {
             <h5>${params.title}</h5>
             <small>by ${params.channel}</small>
           </div>
-          <div class="col-1">
-            <button type="button" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true" id="add"></i></button>
+          <div class="col-1" id="add">
+            <button type="button" class="btn btn-primary float-right"><i class="fa fa-plus" aria-hidden="true"></i></button>
           </div>
         </div>
       </li>`
@@ -109,8 +109,8 @@ function videoEle(params) {
           <div class="col-8">
             <h5>${params.title}</h5>
           </div>
-          <div class="col-1">
-            <button type="button" class="btn btn-primary float-right" id="remove"><i class="fa fa-times" aria-hidden="true"></i></button>
+          <div class="col-1" id="remove">
+            <button type="button" class="btn btn-primary float-right"><i class="fa fa-times" aria-hidden="true"></i></button>
           </div>
         </div>
       </li>`
