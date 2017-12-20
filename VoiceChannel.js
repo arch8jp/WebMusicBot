@@ -72,6 +72,12 @@ class VoiceChannel {
       this.dispatcher.pause()
     })
   }
+
+  skip() {
+    return new Promise((resolve, reject) => {
+      if (!this.dispatcher) return reject('再生していません')
+      this.dispatcher.end()
+    })
   }
 }
 
