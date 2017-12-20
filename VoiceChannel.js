@@ -9,6 +9,10 @@ class VoiceChannel {
     this.playing = false
     this.callback = callback
     this.volume = 100
+    channel.client.on('voiceStateUpdate', () => {
+      if (channel.members.size === 1) this.pause()
+      else this.play()
+    })
   }
 
   add(data) {
@@ -50,6 +54,18 @@ class VoiceChannel {
       this.volume = volume
       resolve(volume)
     })
+  }
+
+  play() {
+    if (!this.dispatcher) return
+    if (!this.dispatcher.paused) return
+    this.dispatcher.resume()
+  }
+
+  pause() {
+    if (!this.dispatcher) return
+    if (this.dispatcher.paused) return
+    this.dispatcher.pause()
   }
 }
 
