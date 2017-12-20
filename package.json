@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/yuta0801/musicbot#readme",
   "dependencies": {
-    "connect-mongo": "^2.0.0",
     "discord.js": "^11.2.1",
     "dotenv": "^4.0.0",
     "ejs": "^2.5.7",
@@ -26,6 +25,7 @@
     "ffmpeg-binaries": "^3.2.2-3",
     "opusscript": "0.0.4",
     "request": "^2.83.0",
+    "session-file-store": "^1.2.0",
     "socket.io": "^2.0.4",
     "ytdl-core": "^0.18.1"
   }
