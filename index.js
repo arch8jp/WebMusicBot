@@ -11,7 +11,7 @@ const path = require('path')
 const discord = require('./discord')
 const search = require('./search')
 const VoiceChannel = require('./VoiceChannel')
-const guilds = new Map()
+const guilds = new Discord.Collection()
 
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
@@ -99,8 +99,16 @@ io.sockets.on('connection', socket => {
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
+  updateStatus()
 })
 
 client.login(process.env.DISCORD_TOKEN)
+
+function updateStatus() {
+  const all = client.guilds.size
+  const playing = guilds.map(e => e.dispatcher).length
+  client.user.setGame(playing + '/' + all)
+  setTimeout(() => updateStatus(), 1000)
+}
 
 process.on('unhandledRejection', console.log)
