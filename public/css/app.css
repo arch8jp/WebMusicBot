@@ -10,3 +10,7 @@ form > * {
 input[type=range] {
   vertical-align: middle;
 }
+
+#add #remove {
+  cursor: pointer;
+}
