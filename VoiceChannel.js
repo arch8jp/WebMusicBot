@@ -12,7 +12,7 @@ class VoiceChannel {
     channel.client.on('voiceStateUpdate', () => {
       const members = channel.members.map(member => !member.user.bot).length
       if (members < 1) this.pause()
-      else this.play()
+      else this.play().catch()
     })
   }
 
@@ -58,15 +58,20 @@ class VoiceChannel {
   }
 
   play() {
-    if (!this.dispatcher) return
-    if (!this.dispatcher.paused) return
-    this.dispatcher.resume()
+    return new Promise((resolve, reject) => {
+      if (!this.dispatcher) return reject('再生していません')
+      if (!this.dispatcher.paused) return
+      this.dispatcher.resume()
+    })
   }
 
   pause() {
-    if (!this.dispatcher) return
-    if (this.dispatcher.paused) return
-    this.dispatcher.pause()
+    return new Promise((resolve, reject) => {
+      if (!this.dispatcher) return reject('再生していません')
+      if (this.dispatcher.paused) return
+      this.dispatcher.pause()
+    })
+  }
   }
 }
 
