@@ -6,7 +6,7 @@ const app = express()
 const server = app.listen(Number(process.env.SERVER_PORT))
 const io = require('socket.io').listen(server)
 const session = require('express-session')
-const MongoStore = require('connect-mongo')(session)
+const FileStore = require('session-file-store')(session)
 const path = require('path')
 const discord = require('./discord')
 const search = require('./search')
@@ -18,10 +18,7 @@ const sessionMiddleware = session({
   resave: false,
   saveUninitialized: false,
   rolling : true,
-  store: new MongoStore({
-    url: 'mongodb://localhost/musicbot',
-    ttl: 60 * 60 * 14 * 24,
-  }),
+  store: new FileStore(),
   cookie:{
     httpOnly: true,
     secure: false,
