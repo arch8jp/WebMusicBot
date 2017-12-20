@@ -10,7 +10,8 @@ class VoiceChannel {
     this.callback = callback
     this.volume = 100
     channel.client.on('voiceStateUpdate', () => {
-      if (channel.members.size === 1) this.pause()
+      const members = channel.members.map(member => !member.user.bot).length
+      if (members < 1) this.pause()
       else this.play()
     })
   }
