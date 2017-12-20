@@ -14,7 +14,7 @@ const VoiceChannel = require('./VoiceChannel')
 const guilds = new Map()
 
 const sessionMiddleware = session({
-  secret: 'secret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   rolling: true,
