@@ -17,9 +17,9 @@ const sessionMiddleware = session({
   secret: 'secret',
   resave: false,
   saveUninitialized: false,
-  rolling : true,
+  rolling: true,
   store: new FileStore(),
-  cookie:{
+  cookie: {
     httpOnly: true,
     secure: false,
     maxage: 1000 * 60 * 60 * 24 * 30,

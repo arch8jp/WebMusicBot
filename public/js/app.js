@@ -1,3 +1,5 @@
+/* global $, io */
+
 const guild = $('#id').val()
 const socket = io.connect()
 
