@@ -9,11 +9,6 @@ class VoiceChannel {
     this.playing = false
     this.callback = callback
     this.volume = 100
-    channel.client.on('voiceStateUpdate', () => {
-      const members = channel.members.map(member => !member.user.bot).length
-      if (members < 1) this.pause()
-      else this.play().catch()
-    })
   }
 
   add(data) {
@@ -54,22 +49,6 @@ class VoiceChannel {
       this.dispatcher.setVolume(volume / 100)
       this.volume = volume
       resolve(volume)
-    })
-  }
-
-  play() {
-    return new Promise((resolve, reject) => {
-      if (!this.dispatcher) return reject('再生していません')
-      if (!this.dispatcher.paused) return
-      this.dispatcher.resume()
-    })
-  }
-
-  pause() {
-    return new Promise((resolve, reject) => {
-      if (!this.dispatcher) return reject('再生していません')
-      if (this.dispatcher.paused) return
-      this.dispatcher.pause()
     })
   }
 
