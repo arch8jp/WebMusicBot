@@ -31,6 +31,12 @@ app.set('view engine', 'ejs')
 
 app.use(sessionMiddleware)
 
+app.get('/status', (req, res) => res.send({
+  guilds: client.guilds.size,
+  playing: guilds.filter(e => e.playing).size,
+  loadedGuilds: guilds.size,
+}))
+
 app.get('/controller/:id', (req, res) => {
   const channel = client.channels.get(req.params.id)
   if (!channel || channel.type !== 'voice') return res.send('不正なチャンネルID')
