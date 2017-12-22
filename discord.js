@@ -1,10 +1,11 @@
 const request = require('request')
 require('dotenv').config()
+const url = require('url')
 
 const client = {
   id: process.env.CLIENT_ID,
   secret: process.env.CLIENT_SECRET,
-  callback: process.env.CLIENT_CALLBACK,
+  callback: url.resolve(process.env.BASE_URL, '/callback'),
 }
 
 module.exports = {
