@@ -5,31 +5,17 @@ const express = require('express')
 const app = express()
 const server = app.listen(Number(process.env.SERVER_PORT))
 const io = require('socket.io').listen(server)
-const session = require('express-session')
-const FileStore = require('session-file-store')(session)
+const session = require('./session')
 const path = require('path')
 const discord = require('./discord')
 const search = require('./search')
 const VoiceChannel = require('./VoiceChannel')
 const guilds = new Discord.Collection()
 
-const sessionMiddleware = session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  rolling: true,
-  store: new FileStore(),
-  cookie: {
-    httpOnly: true,
-    secure: false,
-    maxage: 1000 * 60 * 60 * 24 * 30,
-  },
-})
-
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
-app.use(sessionMiddleware)
+app.use(session)
 
 app.get('/status', (req, res) => res.send({
   guilds: client.guilds.size,
@@ -65,7 +51,7 @@ app.get('/logout', discord.logout)
 app.get('/callback', discord.callback)
 
 io.use((socket, next) => {
-  sessionMiddleware(socket.request, socket.request.res, next)
+  session(socket.request, socket.request.res, next)
 })
 
 io.sockets.on('connection', socket => {
