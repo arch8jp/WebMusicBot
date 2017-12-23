@@ -25,7 +25,7 @@ app.get('/status', (req, res) => res.send({
 
 app.get('/controller/:id', (req, res) => {
   const channel = client.channels.get(req.params.id)
-  if (!channel || channel.type !== 'voice') return res.send('不正なチャンネルID')
+  if (!channel || channel.type !== 'voice') return res.send('そのチャンネルIDは存在しません！(This ChannelID is not exist!)')
   const guild = channel.guild
   if (guilds.has(guild.id)) {
     // 同じギルドのボイチャに参加済み
@@ -97,9 +97,10 @@ client.on('ready', () => {
 client.login(process.env.DISCORD_TOKEN)
 
 function updateStatus() {
+  const all = client.guilds.size
   const playing = guilds.filter(e => e.playing).size
-  client.user.setGame(playing + 'ServerActive' + ' |Ver.6.25.0')
+  client.user.setGame(playing + 'ServerActive' + ' |Ver.1.3.13')
   setTimeout(() => updateStatus(), 1000)
 }
 
-process.on('unhandledRejection', error => console.log(error))
+process.on('unhandledRejection', console.log)
