@@ -1,14 +1,21 @@
 /* global $, io */
 
-const guild = $('#id').val()
 const socket = io.connect()
 
-console.log('socket', 'emit', 'init', guild)
-socket.emit('init', guild)
+let guild
 
-socket.on('connect', () => {
-  console.log('socket', 'connect')
+let channel = location.href.match(/\d{18}/)
+
+if (!Array.isArray(channel)) channel = ['null']
+
+console.log('socket', 'emit', 'init', channel[0])
+socket.emit('init', channel[0])
+
+socket.on('ready', data => {
+  console.log('socket', 'on', 'ready', data)
   $('#loading').addClass('completed')
+  guild = data.id
+  $('h1').html(data.guild + '<i class="fa fa-volume-up" aria-hidden="true"></i>' + data.channel)
 })
 
 $('#search').submit(() => {
@@ -44,7 +51,7 @@ socket.on('result', data => {
 
 socket.on('err', error => {
   console.log('socket', 'on', 'err', error)
-  $('.error').show().text(error).delay(3000).fadeOut()
+  $('.error').text(error).show()
 })
 
 $(document).on('click', '#add', function() {

@@ -24,24 +24,7 @@ app.get('/status', (req, res) => res.send({
 }))
 
 app.get('/controller/:id', (req, res) => {
-  const channel = client.channels.get(req.params.id)
-  if (!channel || channel.type !== 'voice') return res.send('そのチャンネルIDは存在しません！(This ChannelID is not exist!)')
-  const guild = channel.guild
-  if (guilds.has(guild.id)) {
-    // 同じギルドのボイチャに参加済み
-    if (guilds.get(guild.id).id !== channel.id)
-      return res.send('同ギルド内のボイチャに参加済み')
-  } else {
-    // Botが参加していない
-    guilds.set(guild.id, new VoiceChannel(channel, queue => {
-      io.to(guild.id).emit('list', queue)
-    }))
-  }
-  res.render('controller', {
-    guild: guild.name,
-    channel: channel.name,
-    id: guild.id,
-  })
+  res.sendFile('public/controller.html', { root: __dirname })
 })
 
 app.use('/', express.static(path.join(__dirname, 'public')))
@@ -56,9 +39,28 @@ io.use((socket, next) => {
 
 io.sockets.on('connection', socket => {
   socket.on('init', id => {
-    socket.join(id)
-    socket.emit('list', guilds.get(id).queue || [])
-    socket.emit('volume', guilds.get(id).volume)
+    const channel = client.channels.get(id)
+    if (!channel || channel.type !== 'voice')
+      return socket.emit('err', 'Invalid channel id')
+    const guild = channel.guild
+    if (guilds.has(guild.id)) {
+      // 同じギルドのボイチャに参加済み
+      if (guilds.get(guild.id).id !== channel.id)
+        return socket.emit('err', 'Already joined voice channel')
+    } else {
+      // Botが参加していない
+      guilds.set(guild.id, new VoiceChannel(channel, queue => {
+        io.to(guild.id).emit('list', queue)
+      }))
+    }
+    socket.join(guild.id)
+    socket.emit('list', guilds.get(guild.id).queue || [])
+    socket.emit('volume', guilds.get(guild.id).volume)
+    socket.emit('ready', {
+      guild: guild.name,
+      channel: channel.name,
+      id: guild.id,
+    })
   })
 
   socket.on('q', q => {
