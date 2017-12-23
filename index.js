@@ -99,7 +99,7 @@ client.login(process.env.DISCORD_TOKEN)
 function updateStatus() {
   const all = client.guilds.size
   const playing = guilds.filter(e => e.playing).size
-  client.user.setGame(playing + '/' + all)
+  client.user.setGame(playing + 'ServerActive' + ' |Ver.6.25.0')
   setTimeout(() => updateStatus(), 1000)
 }
 
