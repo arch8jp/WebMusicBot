@@ -1,21 +1,21 @@
 {
-  "name": "musicbot",
-  "version": "2.0.0",
-  "description": "Discord music bot with web controller",
+  "name": "webmusicbot",
+  "version": "1.0.0",
+  "description": "A Discord music bot with web controller",
   "main": "index.js",
   "scripts": {
-    "test": "node index"
+    "test": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yuta0801/musicbot.git"
+    "url": "git+https://github.com/IntegratedDevelopmentGroup/WebMusicBot.git"
   },
   "author": "yuta0801",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yuta0801/musicbot/issues"
+    "url": "https://github.com/IntegratedDevelopmentGroup/WebMusicBot/issues"
   },
-  "homepage": "https://github.com/yuta0801/musicbot#readme",
+  "homepage": "https://github.com/IntegratedDevelopmentGroup/WebMusicBot#readme",
   "dependencies": {
     "discord.js": "^11.2.1",
     "dotenv": "^4.0.0",
