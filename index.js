@@ -91,16 +91,8 @@ io.sockets.on('connection', socket => {
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
-  updateStatus()
 })
 
 client.login(process.env.DISCORD_TOKEN)
-
-function updateStatus() {
-  const all = client.guilds.size
-  const playing = guilds.filter(e => e.playing).size
-  client.user.setGame(playing + 'ServerActive' + ' |Ver.1.3.13')
-  setTimeout(() => updateStatus(), 1000)
-}
 
 process.on('unhandledRejection', console.log)
