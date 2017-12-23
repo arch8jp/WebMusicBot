@@ -12,9 +12,6 @@ const search = require('./search')
 const VoiceChannel = require('./VoiceChannel')
 const guilds = new Discord.Collection()
 
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
-
 app.use(session)
 
 app.get('/status', (req, res) => res.send({
