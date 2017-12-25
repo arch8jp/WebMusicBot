@@ -41,15 +41,16 @@ io.sockets.on('connection', socket => {
       return socket.emit('error', 'INVAILD_CHANNEL_ID')
     const guild = channel.guild
     // 同じギルドのボイチャに参加済み
-    if (guilds.has(guild.id))
+    if (guilds.has(guild.id)) {
       if (guilds.get(guild.id).id !== channel.id)
         return socket.emit('error', 'ALREADY_JOINED')
-    // Botが参加していない
-    guilds.set(guild.id, new VoiceChannel(channel, queue => {
-      io.to(guild.id).emit('list', queue)
-    }))
+    } else {
+      // Botが参加していない
+      guilds.set(guild.id, new VoiceChannel(channel, queue => {
+        io.to(guild.id).emit('list', queue)
+      }))
+    }
     socket.join(guild.id)
-    socket.emit('list', guilds.get(guild.id).queue || [])
     socket.emit('volume', guilds.get(guild.id).volume)
     socket.emit('ready', {
       guild: guild.name,
