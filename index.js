@@ -25,12 +25,12 @@ app.get('/status', (req, res) => res.send({
 
 app.get('/controller/:id', (req, res) => {
   const channel = client.channels.get(req.params.id)
-  if (!channel || channel.type !== 'voice') return res.send('そのチャンネルIDは存在しません！(This ChannelID is not exist!)')
+  if (!channel || channel.type !== 'voice') return res.send('INVAILD_CHANNEL_ID')
   const guild = channel.guild
   if (guilds.has(guild.id)) {
     // 同じギルドのボイチャに参加済み
     if (guilds.get(guild.id).id !== channel.id)
-      return res.send('同ギルド内のボイチャに参加済み')
+      return res.send('ALREADY_JOINED')
   } else {
     // Botが参加していない
     guilds.set(guild.id, new VoiceChannel(channel, queue => {
@@ -68,21 +68,21 @@ io.sockets.on('connection', socket => {
   })
 
   socket.on('add', data => {
-    if (!guilds.has(data.guild)) socket.emit('err', '無効なチャンネルID(Invaild ChannelID)')
+    if (!guilds.has(data.guild)) socket.emit('err', 'UNTREATED_CHANNEL')
     else guilds.get(data.guild).add(data)
       .then(list => io.to(data.guild).emit('list', list))
       .catch(error => socket.emit('err', error))
   })
 
   socket.on('remove', data => {
-    if (!guilds.has(data.id)) socket.emit('err', '無効なチャンネルID(Invaild ChannelID)')
+    if (!guilds.has(data.id)) socket.emit('err', 'UNTREATED_CHANNEL')
     else guilds.get(data.id).remove(data.index)
       .then(list => io.to(data.id).emit('list', list))
       .catch(error => socket.emit('err', error))
   })
 
   socket.on('volume', data => {
-    if (!guilds.has(data.id)) socket.emit('err', '無効なチャンネルID(Invaild ChannelID)')
+    if (!guilds.has(data.id)) socket.emit('err', 'UNTREATED_CHANNEL')
     else guilds.get(data.id).setVolume(data.volume)
       .then(volume => socket.broadcast.to(data.id).emit('volume', volume))
       .catch(error => socket.emit('err', error))

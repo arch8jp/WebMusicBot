@@ -22,7 +22,7 @@ class VoiceChannel {
 
   remove(index) {
     return new Promise((resolve, reject) => {
-      if (typeof index !== 'number' || index === 0) return reject('不正な値')
+      if (typeof index !== 'number' || index === 0) return reject('INVAILD_VALUE')
       this.queue.splice(index, 1)
       resolve(this.queue)
     })
@@ -45,7 +45,7 @@ class VoiceChannel {
   setVolume(volume) {
     return new Promise((resolve, reject) => {
       if (this.volume === volume) return
-      if (!this.dispatcher) return reject('再生していません')
+      if (!this.dispatcher) return reject('NOT_PLAYING_YET')
       this.dispatcher.setVolume(volume / 100)
       this.volume = volume
       resolve(volume)
@@ -54,7 +54,7 @@ class VoiceChannel {
 
   skip() {
     return new Promise((resolve, reject) => {
-      if (!this.dispatcher) return reject('再生していません')
+      if (!this.dispatcher) return reject('NOT_PLAYING_YET')
       this.dispatcher.end()
     })
   }
