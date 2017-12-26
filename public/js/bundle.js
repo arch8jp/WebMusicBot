@@ -35403,22 +35403,28 @@ var render = function() {
                                       { attrs: { row: "", wrap: "" } },
                                       [
                                         _c(
-                                          "v-form",
+                                          "v-flex",
                                           {
-                                            on: {
-                                              submit: function($event) {
-                                                _vm.search()
-                                              }
+                                            attrs: {
+                                              xs8: "",
+                                              sm10: "",
+                                              lg11: ""
                                             }
                                           },
                                           [
                                             _c(
-                                              "v-flex",
+                                              "v-form",
                                               {
-                                                attrs: {
-                                                  xs8: "",
-                                                  sm10: "",
-                                                  lg11: ""
+                                                on: {
+                                                  submit: [
+                                                    function($event) {
+                                                      _vm.search()
+                                                    },
+                                                    function($event) {
+                                                      $event.preventDefault()
+                                                      _vm.onSubmit($event)
+                                                    }
+                                                  ]
                                                 }
                                               },
                                               [
@@ -35437,41 +35443,35 @@ var render = function() {
                                                 })
                                               ],
                                               1
-                                            ),
-                                            _vm._v(" "),
+                                            )
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-flex",
+                                          {
+                                            attrs: { xs4: "", sm2: "", lg1: "" }
+                                          },
+                                          [
                                             _c(
-                                              "v-flex",
+                                              "v-btn",
                                               {
                                                 attrs: {
-                                                  xs4: "",
-                                                  sm2: "",
-                                                  lg1: ""
+                                                  loading: _vm.searching,
+                                                  disabled: _vm.searching,
+                                                  color: "primary",
+                                                  block: "",
+                                                  type: "submit"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.search()
+                                                  }
                                                 }
                                               },
                                               [
-                                                _c(
-                                                  "v-btn",
-                                                  {
-                                                    attrs: {
-                                                      loading: _vm.searching,
-                                                      disabled: _vm.searching,
-                                                      color: "primary",
-                                                      block: "",
-                                                      type: "submit"
-                                                    },
-                                                    on: {
-                                                      click: function($event) {
-                                                        _vm.search()
-                                                      }
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("v-icon", [
-                                                      _vm._v("search")
-                                                    ])
-                                                  ],
-                                                  1
-                                                )
+                                                _c("v-icon", [_vm._v("search")])
                                               ],
                                               1
                                             )
