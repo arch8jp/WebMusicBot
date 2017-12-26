@@ -1,68 +1,20 @@
-<!DOCTYPE html>
-<html lang="ja">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Music Bot Controller</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css" integrity="sha256-WfuSLYdzGvlsFU6ImYYSE277WsjfyU30QeGuNIjeJEI=" crossorigin="anonymous" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+  <title>Hello Vue</title>
+
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+  <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <base href="/" />
+
 </head>
-
 <body>
-  <div class="mt-2"></div>
-  <div class="container text-center">
-    <h1>Music Bot Controller</h1>
-    <hr>
-    <!-- エラー表示用 -->
-    <div class="alert alert-danger error" style="display:none;"></div>
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="queue-tab" data-toggle="tab" href="#queue" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-list" aria-hidden="true"></i> Queue</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="search-tab" data-toggle="tab" href="#search" role="tab" aria-controls="profile" aria-selected="false"><i class="fa fa-search" aria-hidden="true"></i> Search</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="control-tab" data-toggle="tab" href="#control" role="tab" aria-controls="contact" aria-selected="false"><i class="fa fa-headphones" aria-hidden="true"></i> Control</a>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="queue" role="tabpanel" aria-labelledby="home-tab">
-        <div class="mt-2"></div>
-        <div class="wrapper">
-          <ul class="list-group" id="list"></ul>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="search" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="mt-2"></div>
-        <form id="search">
-          <div class="input-group">
-            <select class="form-control" style="max-width:150px;" disabled>
-              <option value="youtube" selected="">YouTube</option>
-              <option value="url">URL</option>
-            </select>
-            <input type="search" class="form-control" id="q" placeholder="Search for..." aria-label="Search for..." required="" autocomplete="off">
-            <span class="input-group-btn">
-              <button type="submit" class="btn btn-secondary"><i class="fa fa-search" aria-hidden="true"></i></button>
-            </span>
-          </div>
-        </form>
-        <div class="mt-2"></div>
-        <ul class="list-group" id="results"></ul>
-      </div>
-      <div class="tab-pane fade" id="control" role="tabpanel" aria-labelledby="contact-tab">
-        <div class="mt-2"></div>
-        <input id="volume" data-slider-id='volumeSlider' type="text" data-slider-min="0" data-slider-max="200" data-slider-step="1">
-      </div>
-    </div>
-  </div>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/libs/jquery.min.js"></script>
-  <script src="/js/libs/bootstrap-slider.min.js"></script>
-  <script src="/js/app.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-  <script src="https://use.fontawesome.com/d752299806.js"></script>
+<div id="app"></div>
+<script src="/js/libs/jquery.min.js"></script>
+<script src="/js/libs/bootstrap-slider.min.js"></script>
+<script src="/js/bundle.js"></script>
 </body>
-
 </html>

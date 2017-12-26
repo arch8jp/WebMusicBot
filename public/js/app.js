@@ -18,7 +18,7 @@ socket.on('ready', data => {
   $('h1').html(data.guild + '<i class="fa fa-volume-up" aria-hidden="true"></i>' + data.channel)
 })
 
-$('#search').submit(() => {
+$('#search').on('click', function() {
   console.log('socket', 'emit', 'q', $('#q').val())
   socket.emit('q', $('#q').val())
   return false
@@ -75,18 +75,18 @@ $(document).on('click', '#remove', function() {
   socket.emit('remove', data)
 })
 
-$('#volume').slider({
+/*$('#volume').slider({
   formatter: value => parseInt(value / 2) + '%',
 }).on('slide', function() {
   const data = { volume: $(this).val(), id: guild }
   console.log('socket', 'emit', 'volume', data)
   socket.emit('volume', data)
-})
+})*/
 
-socket.on('volume', volume => {
+/*socket.on('volume', volume => {
   console.log('socket', 'on', 'volume', volume)
   $('#volume').slider('setValue', volume)
-})
+})*/
 
 function videoEle(params) {
   let ele = null
