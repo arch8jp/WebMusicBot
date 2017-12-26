@@ -15733,7 +15733,6 @@ if (inBrowser && window.Vue) {
     }
   },
   mounted: function() {
-    console.log(this.$route.params.id);
     this.$socket.emit('init', this.$route.params.id)
   },
   sockets: {
@@ -35416,15 +35415,10 @@ var render = function() {
                                               "v-form",
                                               {
                                                 on: {
-                                                  submit: [
-                                                    function($event) {
-                                                      _vm.search()
-                                                    },
-                                                    function($event) {
-                                                      $event.preventDefault()
-                                                      _vm.onSubmit($event)
-                                                    }
-                                                  ]
+                                                  submit: function($event) {
+                                                    $event.preventDefault()
+                                                    _vm.search()
+                                                  }
                                                 }
                                               },
                                               [

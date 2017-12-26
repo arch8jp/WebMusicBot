@@ -94,7 +94,7 @@
                 <v-container fluid grid-list-md>
                   <v-layout row wrap>
                     <v-flex xs8 sm10 lg11>
-                      <v-form @submit="search()" v-on:submit.prevent="onSubmit">
+                      <v-form v-on:submit.prevent="search()">
                       <v-text-field
                         name="search_query"
                         label="検索キーワード"
@@ -173,7 +173,6 @@ export default {
     }
   },
   mounted: function() {
-    console.log(this.$route.params.id);
     this.$socket.emit('init', this.$route.params.id)
   },
   sockets: {
