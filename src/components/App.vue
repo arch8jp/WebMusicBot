@@ -3,7 +3,7 @@
     <v-app>
       <pageheader></pageheader>
       <v-content>
-        <v-container fluid>
+        <v-container>
           <v-alert color="info" icon="info" value="true" transition="scale-transition">
             テスト運用中です<br>
             不具合を発見したらかずえもん(@mcpe_kazuemon)までお問い合わせください

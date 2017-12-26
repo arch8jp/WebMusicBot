@@ -166,7 +166,7 @@ export default {
       search_query: '',
       search_result: {},
       queue: [],
-      searching: false
+      searching: false,
     }
   },
   sockets: {

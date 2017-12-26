@@ -6,12 +6,7 @@ import * as io from 'socket.io-client';
 
 const socket = io.connect()
 
-let guild
-let channel = location.href.match(/\d{18}/)
-
-if (!Array.isArray(channel)) channel = ['null']
-
-console.log('socket', 'emit', 'init', channel[0])
-socket.emit('init', channel[0])
+const id = this.$route.id;
+socket.emit('init', id)
 
 Vue.use(VueSocketio, socket);
