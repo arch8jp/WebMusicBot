@@ -15726,7 +15726,7 @@ if (inBrowser && window.Vue) {
       search_query: '',
       search_result: {},
       queue: [],
-      searching: false
+      searching: false,
     }
   },
   sockets: {
@@ -34928,7 +34928,6 @@ var render = function() {
             [
               _c(
                 "v-container",
-                { attrs: { fluid: "" } },
                 [
                   _c(
                     "v-alert",
@@ -34983,7 +34982,7 @@ if (false) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Pages_Home_vue__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Pages_Controller_vue__ = __webpack_require__(39);
 
 
 
@@ -34995,7 +34994,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODU
   routes: [
     {
       path: '/controller/:id',
-      component: __WEBPACK_IMPORTED_MODULE_2__components_Pages_Home_vue__["a" /* default */]
+      component: __WEBPACK_IMPORTED_MODULE_2__components_Pages_Controller_vue__["a" /* default */]
     }
   ]
 }));
@@ -35006,9 +35005,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODU
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Home_vue__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Controller_vue__ = __webpack_require__(16);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7070b2b2_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Home_vue__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0ea1aae4_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Controller_vue__ = __webpack_require__(40);
 var disposed = false
 var normalizeComponent = __webpack_require__(5)
 /* script */
@@ -35025,14 +35024,14 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Home_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7070b2b2_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Home_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_Controller_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0ea1aae4_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_Controller_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "src\\components\\Pages\\Home.vue"
+Component.options.__file = "src\\components\\Pages\\Controller.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -35041,9 +35040,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7070b2b2", Component.options)
+    hotAPI.createRecord("data-v-0ea1aae4", Component.options)
   } else {
-    hotAPI.reload("data-v-7070b2b2", Component.options)
+    hotAPI.reload("data-v-0ea1aae4", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -35615,7 +35614,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7070b2b2", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-0ea1aae4", esExports)
   }
 }
 
@@ -35637,13 +35636,8 @@ if (false) {
 
 const socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client__["connect"]()
 
-let guild
-let channel = location.href.match(/\d{18}/)
-
-if (!Array.isArray(channel)) channel = ['null']
-
-console.log('socket', 'emit', 'init', channel[0])
-socket.emit('init', channel[0])
+const id = this.$route.id;
+socket.emit('init', id)
 
 __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODULE_1_vue_socket_io___default.a, socket);
 
