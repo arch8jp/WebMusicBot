@@ -53,12 +53,12 @@
 
           <v-container fluid grid-list-md>
             <v-layout row wrap>
-              <v-flex md6>
+              <v-flex xs12 md6>
                 <v-container>
                   <v-slider prepend-icon="volume_up" @min="0" @max="100" @input="vchange()" v-model="volume" thumb-label></v-slider>
                 </v-container>
               </v-flex>
-              <v-flex md6>
+              <v-flex xs12 md6>
                 <v-container>
                   <div class="text-xs-right">
                     <v-btn icon ripple>
@@ -83,19 +83,21 @@
           <v-card-text>
             <v-container fluid grid-list-md>
               <v-layout row wrap>
-                <v-flex md11>
+                <v-flex xs8 md11>
                   <v-text-field
                     name="search_query"
                     label="検索キーワード"
                     v-model="search_query"
                   ></v-text-field>
                 </v-flex>
-                <v-flex md1>
+                <v-flex xs4 md1>
                   <v-btn
                     :loading="searching"
                     :disabled="searching"
                     color="primary"
-                    @click="search()">
+                    @click="search()"
+                    block
+                  >
                     検索
                   </v-btn>
                 </v-flex>

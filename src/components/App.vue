@@ -5,7 +5,8 @@
       <v-content>
         <v-container fluid>
           <v-alert color="info" icon="info" value="true" transition="scale-transition">
-            新ページ テスト運用中です!
+            テスト運用中です<br>
+            不具合を発見したらかずえもん(@mcpe_kazuemon)までお問い合わせください
           </v-alert>
         </v-container>
         <router-view></router-view>
