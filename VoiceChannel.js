@@ -15,7 +15,7 @@ class VoiceChannel {
     return new Promise(resolve => {
       this.queue.push(data)
       resolve(this.queue)
-      if (!this.playing || this.queue[0]) this.loop()
+      if (!this.playing) this.loop()
       // TODO: 最大件数とか
     })
   }
@@ -29,7 +29,6 @@ class VoiceChannel {
   }
 
   loop() {
-    if (this.playing || !this.queue[0]) return
     this.playing = true
     const stream = ytdl(`https://www.youtube.com/watch?v=${this.queue[0].id}`, {filter: 'audioonly'})
     this.channel.join().then(connection => {
@@ -37,7 +36,8 @@ class VoiceChannel {
         this.playing = false
         this.queue.shift()
         this.callback(this.queue)
-        this.loop()
+        if (this.queue[0]) this.loop()
+        else this.channel.leave()
       })
     }).catch(console.error)
   }
