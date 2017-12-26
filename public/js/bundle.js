@@ -15503,6 +15503,7 @@ if (inBrowser && window.Vue) {
 //
 //
 //
+//
 
 
 
@@ -15557,6 +15558,8 @@ if (inBrowser && window.Vue) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
 //
 //
 //
@@ -34926,7 +34929,13 @@ var render = function() {
                         transition: "scale-transition"
                       }
                     },
-                    [_vm._v("\n          新ページ テスト運用中です!\n        ")]
+                    [
+                      _vm._v("\n          テスト運用中です"),
+                      _c("br"),
+                      _vm._v(
+                        "\n          不具合を発見したらかずえもん(@mcpe_kazuemon)までお問い合わせください\n        "
+                      )
+                    ]
                   )
                 ],
                 1
@@ -35173,7 +35182,7 @@ var render = function() {
                             [
                               _c(
                                 "v-flex",
-                                { attrs: { md6: "" } },
+                                { attrs: { xs12: "", md6: "" } },
                                 [
                                   _c(
                                     "v-container",
@@ -35211,7 +35220,7 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "v-flex",
-                                { attrs: { md6: "" } },
+                                { attrs: { xs12: "", md6: "" } },
                                 [
                                   _c("v-container", [
                                     _c(
@@ -35278,7 +35287,7 @@ var render = function() {
                                 [
                                   _c(
                                     "v-flex",
-                                    { attrs: { md11: "" } },
+                                    { attrs: { xs8: "", md11: "" } },
                                     [
                                       _c("v-text-field", {
                                         attrs: {
@@ -35299,7 +35308,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c(
                                     "v-flex",
-                                    { attrs: { md1: "" } },
+                                    { attrs: { xs4: "", md1: "" } },
                                     [
                                       _c(
                                         "v-btn",
@@ -35307,7 +35316,8 @@ var render = function() {
                                           attrs: {
                                             loading: _vm.searching,
                                             disabled: _vm.searching,
-                                            color: "primary"
+                                            color: "primary",
+                                            block: ""
                                           },
                                           on: {
                                             click: function($event) {
