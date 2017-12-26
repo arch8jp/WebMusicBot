@@ -171,7 +171,7 @@ export default {
   },
   mounted: {
     this.$socket.emit('init', this.$router.id)
-  }
+  },
   sockets: {
     connect() {
       /* チャンネル判定があるので廃止 */
