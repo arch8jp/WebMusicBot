@@ -169,8 +169,9 @@ export default {
       searching: false,
     }
   },
-  mounted: {
-    this.$socket.emit('init', this.$router.id)
+  mounted: function() {
+    console.log(this.$route.params.id);
+    this.$socket.emit('init', this.$route.params.id)
   },
   sockets: {
     connect() {
