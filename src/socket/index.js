@@ -6,7 +6,7 @@ import * as io from 'socket.io-client';
 
 const socket = io.connect()
 
-const id = this.$route.id;
+const id = this.$router.id;
 socket.emit('init', id)
 
 Vue.use(VueSocketio, socket);
