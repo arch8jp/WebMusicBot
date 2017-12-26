@@ -35403,45 +35403,49 @@ var render = function() {
                                       { attrs: { row: "", wrap: "" } },
                                       [
                                         _c(
-                                          "v-flex",
+                                          "v-form",
                                           {
-                                            attrs: {
-                                              xs8: "",
-                                              sm10: "",
-                                              lg11: ""
+                                            on: {
+                                              submit: function($event) {
+                                                _vm.search()
+                                              }
                                             }
                                           },
                                           [
-                                            _c("v-text-field", {
-                                              attrs: {
-                                                name: "search_query",
-                                                label: "検索キーワード"
-                                              },
-                                              model: {
-                                                value: _vm.search_query,
-                                                callback: function($$v) {
-                                                  _vm.search_query = $$v
-                                                },
-                                                expression: "search_query"
-                                              }
-                                            })
-                                          ],
-                                          1
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-flex",
-                                          {
-                                            attrs: { xs4: "", sm2: "", lg1: "" }
-                                          },
-                                          [
                                             _c(
-                                              "v-form",
+                                              "v-flex",
                                               {
-                                                on: {
-                                                  submit: function($event) {
-                                                    _vm.search()
+                                                attrs: {
+                                                  xs8: "",
+                                                  sm10: "",
+                                                  lg11: ""
+                                                }
+                                              },
+                                              [
+                                                _c("v-text-field", {
+                                                  attrs: {
+                                                    name: "search_query",
+                                                    label: "検索キーワード"
+                                                  },
+                                                  model: {
+                                                    value: _vm.search_query,
+                                                    callback: function($$v) {
+                                                      _vm.search_query = $$v
+                                                    },
+                                                    expression: "search_query"
                                                   }
+                                                })
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-flex",
+                                              {
+                                                attrs: {
+                                                  xs4: "",
+                                                  sm2: "",
+                                                  lg1: ""
                                                 }
                                               },
                                               [

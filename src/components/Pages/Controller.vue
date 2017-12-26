@@ -93,15 +93,15 @@
             <v-card-text>
                 <v-container fluid grid-list-md>
                   <v-layout row wrap>
-                    <v-flex xs8 sm10 lg11>
-                      <v-text-field
-                        name="search_query"
-                        label="検索キーワード"
-                        v-model="search_query"
-                      ></v-text-field>
-                    </v-flex>
-                    <v-flex xs4 sm2 lg1>
-                      <v-form @submit="search()">
+                    <v-form @submit="search()">
+                      <v-flex xs8 sm10 lg11>
+                        <v-text-field
+                          name="search_query"
+                          label="検索キーワード"
+                          v-model="search_query"
+                        ></v-text-field>
+                      </v-flex>
+                      <v-flex xs4 sm2 lg1>
                         <v-btn
                           :loading="searching"
                           :disabled="searching"
@@ -110,10 +110,10 @@
                           block
                           type="submit"
                         >
-                          <v-icon>search</v-icon>
+                        <v-icon>search</v-icon>
                         </v-btn>
-                      </v-form>
-                    </v-flex>
+                      </v-flex>
+                    </v-form>
                   </v-layout>
               </v-container>
 
