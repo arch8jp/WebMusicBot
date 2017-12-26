@@ -15712,6 +15712,9 @@ if (inBrowser && window.Vue) {
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data() {
@@ -35112,19 +35115,18 @@ var render = function() {
                             _vm._v(" "),
                             _c("v-card-text", [
                               _vm._v(
-                                "\r\n              ギルドID: " +
-                                  _vm._s(_vm.guild)
+                                "\n              ギルドID: " + _vm._s(_vm.guild)
                               ),
                               _c("br"),
                               _vm._v(
-                                "\r\n              チャンネル名: " +
+                                "\n              チャンネル名: " +
                                   _vm._s(_vm.channel)
                               ),
                               _c("br"),
                               _vm._v(
-                                "\r\n              チャンネルとの接続状態: " +
+                                "\n              チャンネルとの接続状態: " +
                                   _vm._s(_vm.isConnected) +
-                                  "\r\n            "
+                                  "\n            "
                               )
                             ])
                           ],
@@ -35434,22 +35436,38 @@ var render = function() {
                                           },
                                           [
                                             _c(
-                                              "v-btn",
+                                              "v-form",
                                               {
-                                                attrs: {
-                                                  loading: _vm.searching,
-                                                  disabled: _vm.searching,
-                                                  color: "primary",
-                                                  block: ""
-                                                },
                                                 on: {
-                                                  click: function($event) {
+                                                  submit: function($event) {
                                                     _vm.search()
                                                   }
                                                 }
                                               },
                                               [
-                                                _c("v-icon", [_vm._v("search")])
+                                                _c(
+                                                  "v-btn",
+                                                  {
+                                                    attrs: {
+                                                      loading: _vm.searching,
+                                                      disabled: _vm.searching,
+                                                      color: "primary",
+                                                      block: "",
+                                                      type: "submit"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.search()
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-icon", [
+                                                      _vm._v("search")
+                                                    ])
+                                                  ],
+                                                  1
+                                                )
                                               ],
                                               1
                                             )
@@ -35568,7 +35586,7 @@ var render = function() {
                 }
               },
               [
-                _vm._v("\r\n      " + _vm._s(_vm.snack_message) + "\r\n      "),
+                _vm._v("\n      " + _vm._s(_vm.snack_message) + "\n      "),
                 _c(
                   "v-btn",
                   {
@@ -35604,11 +35622,7 @@ var render = function() {
                       transition: "scale-transition"
                     }
                   },
-                  [
-                    _vm._v(
-                      "\r\n        チャンネルに接続されていません\r\n      "
-                    )
-                  ]
+                  [_vm._v("\n        チャンネルに接続されていません\n      ")]
                 )
               ],
               1
