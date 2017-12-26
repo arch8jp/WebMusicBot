@@ -1,136 +1,154 @@
 <template>
 <div>
-  <v-container fluid grid-list-lg>
+  <div v-if="isConnected">
+    <v-container grid-list-lg>
 
-    <v-layout row wrap>
+      <v-layout row wrap>
 
-      <!-- ステータス表示 (デバッグ用なので後で削除します) -->
-      <v-flex xs12>
-        <v-card>
-          <v-card-title primary-title>
-            Status
-          </v-card-title>
-          <v-card-text>
-            ギルドID: {{guild}}<br>
-            チャンネル名: {{channel}}<br>
-            接続状態: {{isConnected}}
-          </v-card-text>
-        </v-card>
-      </v-flex>
+        <!-- ステータス表示 (デバッグ用なので後で削除します) -->
+        <v-flex xs12>
+          <v-card>
+            <v-card-title primary-title>
+              <h3 class="headline mb-0"><v-icon large>airplay</v-icon> Status</h3>
+            </v-card-title>
+            <v-card-text>
+              ギルドID: {{guild}}<br>
+              チャンネル名: {{channel}}<br>
+              チャンネルとの接続状態: {{isConnected}}
+            </v-card-text>
+          </v-card>
+        </v-flex>
 
-      <!-- 現在キュー表示 -->
+        <!-- 現在キュー表示 -->
 
-      <v-flex xs12>
-        <v-card>
+        <v-flex xs12>
+          <v-card>
 
-          <v-card-title primary-title>
-            <h3 class="headline mb-0"><v-icon large>playlist_play</v-icon> Now Playing</h3>
-          </v-card-title>
+            <v-card-title primary-title>
+              <h3 class="headline mb-0"><v-icon large>playlist_play</v-icon> Now Playing</h3>
+            </v-card-title>
 
-          <v-list v-if="queue.length > 0">
-            <v-list-tile avatar v-for="(item, key) in queue" v-bind:key="key">
-              <v-list-tile-avatar>
-                <img v-bind:src="item.img"/>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>{{item.title}}</v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn icon ripple v-if="key !== 0" @click="del(item,key)">
-                  <v-icon>delete</v-icon>
-                </v-btn>
-              </v-list-tile-action>
+            <v-list v-if="queue.length > 0">
+              <v-list-tile avatar v-for="(item, key) in queue" v-bind:key="key">
+                <v-list-tile-avatar>
+                  <img v-bind:src="item.img"/>
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{item.title}}</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                  <v-btn icon ripple v-if="key !== 0" @click="del(item,key)">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </v-list-tile-action>
 
-            </v-list-tile>
-          </v-list>
+              </v-list-tile>
+            </v-list>
 
-          <!-- キューが空の場合 -->
-          <v-card-text class="text-xs-center" v-else>
-            <p class="headline">キューに曲がありません</p>
-          </v-card-text>
+            <!-- キューが空の場合 -->
+            <v-card-text class="text-xs-center" v-else>
+              <p class="headline">キューに曲がありません</p>
+            </v-card-text>
 
-          <v-divider></v-divider>
+            <v-divider></v-divider>
 
-          <v-container fluid grid-list-md>
-            <v-layout row wrap>
-              <v-flex xs12 md6>
-                <v-container>
-                  <v-slider prepend-icon="volume_up" @min="0" @max="100" @input="vchange()" v-model="volume" thumb-label></v-slider>
-                </v-container>
-              </v-flex>
-              <v-flex xs12 md6>
-                <v-container>
-                  <div class="text-xs-right">
-                    <v-btn icon ripple>
-                      <v-icon>delete</v-icon>
-                    </v-btn>
-                  </div>
-                </v-container>
-              </v-flex>
-            </v-layout>
-          </v-container>
-
-        </v-card>
-      </v-flex>
-
-      <v-flex xs12>
-        <v-card>
-
-          <v-card-title primary-title>
-            <h3 class="headline mb-0"><v-icon large>search</v-icon> Search</h3>
-          </v-card-title>
-
-          <v-card-text>
             <v-container fluid grid-list-md>
               <v-layout row wrap>
-                <v-flex xs8 md11>
-                  <v-text-field
-                    name="search_query"
-                    label="検索キーワード"
-                    v-model="search_query"
-                  ></v-text-field>
+                <v-flex xs12 md6>
+                  <v-container>
+                    <v-slider prepend-icon="volume_up" @min="0" @max="100" @input="vchange()" v-model="volume" thumb-label></v-slider>
+                  </v-container>
                 </v-flex>
-                <v-flex xs4 md1>
-                  <v-btn
-                    :loading="searching"
-                    :disabled="searching"
-                    color="primary"
-                    @click="search()"
-                    block
-                  >
-                    検索
-                  </v-btn>
+                <v-flex xs12 md6>
+                  <v-container>
+                    <div class="text-xs-right">
+                      <v-tooltip top>
+                        <v-btn icon ripple slot="activator" disabled>
+                          <v-icon>skip_next</v-icon>
+                        </v-btn>
+                        <span>実装予定</span>
+                      </v-tooltip>
+                      <v-tooltip top>
+                        <v-btn icon ripple slot="activator" disabled>
+                          <v-icon>power_settings_new</v-icon>
+                        </v-btn>
+                        <span>実装予定</span>
+                      </v-tooltip>
+                    </div>
+                  </v-container>
                 </v-flex>
               </v-layout>
             </v-container>
 
-            <v-list two-line v-if="search_result.length > 0">
-              <v-list-tile avatar v-for="item in search_result" v-bind:key="item.id.videoId">
-                <v-list-tile-avatar>
-                  <img v-bind:src="item.snippet.thumbnails.medium.url"/>
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                  <v-list-tile-title>{{item.snippet.title}}</v-list-tile-title>
-                  <v-list-tile-sub-title>by {{ item.snippet.channelTitle }}</v-list-tile-sub-title>
-                </v-list-tile-content>
-                <v-list-tile-action>
-                  <v-btn icon ripple @click="add(item)">
-                    <v-icon>playlist_add</v-icon>
-                  </v-btn>
-                </v-list-tile-action>
-              </v-list-tile>
-            </v-list>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+          </v-card>
+        </v-flex>
 
-  <v-snackbar bottom v-model="snack_visible" :color="snack_color">
-    {{ snack_message }}
-    <v-btn dark flat @click.native="snack_visible = false">Close</v-btn>
-  </v-snackbar>
+        <v-flex xs12>
+          <v-card>
 
+            <v-card-title primary-title>
+              <h3 class="headline mb-0"><v-icon large>search</v-icon> Search</h3>
+            </v-card-title>
+
+            <v-card-text>
+              <v-container fluid grid-list-md>
+                <v-layout row wrap>
+                  <v-flex xs8 sm10 lg11>
+                    <v-text-field
+                      name="search_query"
+                      label="検索キーワード"
+                      v-model="search_query"
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex xs4 sm2 lg1>
+                    <v-btn
+                      :loading="searching"
+                      :disabled="searching"
+                      color="primary"
+                      @click="search()"
+                      block
+                    >
+                      <v-icon>search</v-icon>
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+
+              <v-list two-line v-if="search_result.length > 0">
+                <v-list-tile avatar v-for="item in search_result" v-bind:key="item.id.videoId">
+                  <v-list-tile-avatar>
+                    <img v-bind:src="item.snippet.thumbnails.medium.url"/>
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title>{{item.snippet.title}}</v-list-tile-title>
+                    <v-list-tile-sub-title>by {{ item.snippet.channelTitle }}</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                  <v-list-tile-action>
+                    <v-btn icon ripple @click="add(item)">
+                      <v-icon>playlist_add</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
+                </v-list-tile>
+              </v-list>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+
+    <v-snackbar bottom v-model="snack_visible" :color="snack_color">
+      {{ snack_message }}
+      <v-btn dark flat @click.native="snack_visible = false">Close</v-btn>
+    </v-snackbar>
+
+  </div>
+  <div v-else>
+    <v-container fluid>
+      <v-alert color="warning" icon="priority_high" value="true" transition="scale-transition">
+        チャンネルに接続されていません
+      </v-alert>
+    </v-container>
+  </div>
 </div>
 </template>
 
@@ -139,8 +157,8 @@ export default {
   data() {
     return {
       isConnected: false,
-      guild: '接続しています...',
-      channel: '取得中...',
+      guild: '-',
+      channel: '-',
       volume: 0,
       snack_visible: false,
       snack_message: 'None',
@@ -155,11 +173,18 @@ export default {
     connect() {
       /* チャンネル判定があるので廃止 */
     },
+    disconnect(){
+      this.guild = "-"
+      this.channel = "-"
+      this.snack_message = "接続が切断されました"
+      this.snack_color = "error";
+      this.snack_visible = true;
+      this.isConnected = false;
+    },
     ready(data){
       this.guild = data.id;
       this.channel = data.channel;
       this.isConnected = true;
-      console.log(">> 接続しました");
       this.snack_color = "success";
       this.snack_message = '接続しました'
       this.snack_visible = true;
@@ -177,8 +202,6 @@ export default {
       this.volume = volume
     },
     err(code){
-      this.guild = "-"
-      this.channel = "-"
       this.snack_message = code
       this.snack_color = "error";
       this.snack_visible = true;
@@ -186,22 +209,10 @@ export default {
   },
   methods: {
     search() {
-      if (this.guild === "-"){
-        this.snack_message = "サーバーに接続していません";
-        this.snack_color = "error";
-        this.snack_visible = true;
-        return;
-      }
       this.searching = true;
       this.$socket.emit('q', this.search_query)
     },
     add(item) {
-      if (this.guild === "-"){
-        this.snack_message = "サーバーに接続していません";
-        this.snack_color = "error";
-        this.snack_visible = true;
-        return;
-      }
       const data = {
         id: item.id.videoId,
         img: item.snippet.thumbnails.medium.url,

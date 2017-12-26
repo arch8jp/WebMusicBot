@@ -15694,13 +15694,31 @@ if (inBrowser && window.Vue) {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data() {
     return {
       isConnected: false,
-      guild: '接続しています...',
-      channel: '取得中...',
+      guild: '-',
+      channel: '-',
       volume: 0,
       snack_visible: false,
       snack_message: 'None',
@@ -15715,11 +15733,18 @@ if (inBrowser && window.Vue) {
     connect() {
       /* チャンネル判定があるので廃止 */
     },
+    disconnect(){
+      this.guild = "-"
+      this.channel = "-"
+      this.snack_message = "接続が切断されました"
+      this.snack_color = "error";
+      this.snack_visible = true;
+      this.isConnected = false;
+    },
     ready(data){
       this.guild = data.id;
       this.channel = data.channel;
       this.isConnected = true;
-      console.log(">> 接続しました");
       this.snack_color = "success";
       this.snack_message = '接続しました'
       this.snack_visible = true;
@@ -15737,8 +15762,6 @@ if (inBrowser && window.Vue) {
       this.volume = volume
     },
     err(code){
-      this.guild = "-"
-      this.channel = "-"
       this.snack_message = code
       this.snack_color = "error";
       this.snack_visible = true;
@@ -15746,22 +15769,10 @@ if (inBrowser && window.Vue) {
   },
   methods: {
     search() {
-      if (this.guild === "-"){
-        this.snack_message = "サーバーに接続していません";
-        this.snack_color = "error";
-        this.snack_visible = true;
-        return;
-      }
       this.searching = true;
       this.$socket.emit('q', this.search_query)
     },
     add(item) {
-      if (this.guild === "-"){
-        this.snack_message = "サーバーに接続していません";
-        this.snack_color = "error";
-        this.snack_visible = true;
-        return;
-      }
       const data = {
         id: item.id.videoId,
         img: item.snippet.thumbnails.medium.url,
@@ -35051,413 +35062,551 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "v-container",
-        { attrs: { fluid: "", "grid-list-lg": "" } },
-        [
-          _c(
-            "v-layout",
-            { attrs: { row: "", wrap: "" } },
-            [
-              _c(
-                "v-flex",
-                { attrs: { xs12: "" } },
-                [
-                  _c(
-                    "v-card",
-                    [
-                      _c("v-card-title", { attrs: { "primary-title": "" } }, [
-                        _vm._v("\r\n            Status\r\n          ")
-                      ]),
-                      _vm._v(" "),
-                      _c("v-card-text", [
-                        _vm._v(
-                          "\r\n            ギルドID: " + _vm._s(_vm.guild)
-                        ),
-                        _c("br"),
-                        _vm._v(
-                          "\r\n            チャンネル名: " + _vm._s(_vm.channel)
-                        ),
-                        _c("br"),
-                        _vm._v(
-                          "\r\n            接続状態: " +
-                            _vm._s(_vm.isConnected) +
-                            "\r\n          "
-                        )
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs12: "" } },
-                [
-                  _c(
-                    "v-card",
-                    [
-                      _c("v-card-title", { attrs: { "primary-title": "" } }, [
+  return _c("div", [
+    _vm.isConnected
+      ? _c(
+          "div",
+          [
+            _c(
+              "v-container",
+              { attrs: { "grid-list-lg": "" } },
+              [
+                _c(
+                  "v-layout",
+                  { attrs: { row: "", wrap: "" } },
+                  [
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "" } },
+                      [
                         _c(
-                          "h3",
-                          { staticClass: "headline mb-0" },
+                          "v-card",
                           [
-                            _c("v-icon", { attrs: { large: "" } }, [
-                              _vm._v("playlist_play")
-                            ]),
-                            _vm._v(" Now Playing")
+                            _c(
+                              "v-card-title",
+                              { attrs: { "primary-title": "" } },
+                              [
+                                _c(
+                                  "h3",
+                                  { staticClass: "headline mb-0" },
+                                  [
+                                    _c("v-icon", { attrs: { large: "" } }, [
+                                      _vm._v("airplay")
+                                    ]),
+                                    _vm._v(" Status")
+                                  ],
+                                  1
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("v-card-text", [
+                              _vm._v(
+                                "\r\n              ギルドID: " +
+                                  _vm._s(_vm.guild)
+                              ),
+                              _c("br"),
+                              _vm._v(
+                                "\r\n              チャンネル名: " +
+                                  _vm._s(_vm.channel)
+                              ),
+                              _c("br"),
+                              _vm._v(
+                                "\r\n              チャンネルとの接続状態: " +
+                                  _vm._s(_vm.isConnected) +
+                                  "\r\n            "
+                              )
+                            ])
                           ],
                           1
                         )
-                      ]),
-                      _vm._v(" "),
-                      _vm.queue.length > 0
-                        ? _c(
-                            "v-list",
-                            _vm._l(_vm.queue, function(item, key) {
-                              return _c(
-                                "v-list-tile",
-                                { key: key, attrs: { avatar: "" } },
-                                [
-                                  _c("v-list-tile-avatar", [
-                                    _c("img", { attrs: { src: item.img } })
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-tile-content",
-                                    [
-                                      _c("v-list-tile-title", [
-                                        _vm._v(_vm._s(item.title))
-                                      ])
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-tile-action",
-                                    [
-                                      key !== 0
-                                        ? _c(
-                                            "v-btn",
-                                            {
-                                              attrs: { icon: "", ripple: "" },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.del(item, key)
-                                                }
-                                              }
-                                            },
-                                            [_c("v-icon", [_vm._v("delete")])],
-                                            1
-                                          )
-                                        : _vm._e()
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            })
-                          )
-                        : _c("v-card-text", { staticClass: "text-xs-center" }, [
-                            _c("p", { staticClass: "headline" }, [
-                              _vm._v("キューに曲がありません")
-                            ])
-                          ]),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-container",
-                        { attrs: { fluid: "", "grid-list-md": "" } },
-                        [
-                          _c(
-                            "v-layout",
-                            { attrs: { row: "", wrap: "" } },
-                            [
-                              _c(
-                                "v-flex",
-                                { attrs: { xs12: "", md6: "" } },
-                                [
-                                  _c(
-                                    "v-container",
-                                    [
-                                      _c("v-slider", {
-                                        attrs: {
-                                          "prepend-icon": "volume_up",
-                                          "thumb-label": ""
-                                        },
-                                        on: {
-                                          min: function($event) {
-                                            0
-                                          },
-                                          max: function($event) {
-                                            100
-                                          },
-                                          input: function($event) {
-                                            _vm.vchange()
-                                          }
-                                        },
-                                        model: {
-                                          value: _vm.volume,
-                                          callback: function($$v) {
-                                            _vm.volume = $$v
-                                          },
-                                          expression: "volume"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                { attrs: { xs12: "", md6: "" } },
-                                [
-                                  _c("v-container", [
-                                    _c(
-                                      "div",
-                                      { staticClass: "text-xs-right" },
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "" } },
+                      [
+                        _c(
+                          "v-card",
+                          [
+                            _c(
+                              "v-card-title",
+                              { attrs: { "primary-title": "" } },
+                              [
+                                _c(
+                                  "h3",
+                                  { staticClass: "headline mb-0" },
+                                  [
+                                    _c("v-icon", { attrs: { large: "" } }, [
+                                      _vm._v("playlist_play")
+                                    ]),
+                                    _vm._v(" Now Playing")
+                                  ],
+                                  1
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm.queue.length > 0
+                              ? _c(
+                                  "v-list",
+                                  _vm._l(_vm.queue, function(item, key) {
+                                    return _c(
+                                      "v-list-tile",
+                                      { key: key, attrs: { avatar: "" } },
                                       [
+                                        _c("v-list-tile-avatar", [
+                                          _c("img", {
+                                            attrs: { src: item.img }
+                                          })
+                                        ]),
+                                        _vm._v(" "),
                                         _c(
-                                          "v-btn",
-                                          { attrs: { icon: "", ripple: "" } },
-                                          [_c("v-icon", [_vm._v("delete")])],
+                                          "v-list-tile-content",
+                                          [
+                                            _c("v-list-tile-title", [
+                                              _vm._v(_vm._s(item.title))
+                                            ])
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-list-tile-action",
+                                          [
+                                            key !== 0
+                                              ? _c(
+                                                  "v-btn",
+                                                  {
+                                                    attrs: {
+                                                      icon: "",
+                                                      ripple: ""
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.del(item, key)
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-icon", [
+                                                      _vm._v("delete")
+                                                    ])
+                                                  ],
+                                                  1
+                                                )
+                                              : _vm._e()
+                                          ],
                                           1
                                         )
                                       ],
                                       1
                                     )
-                                  ])
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs12: "" } },
-                [
-                  _c(
-                    "v-card",
-                    [
-                      _c("v-card-title", { attrs: { "primary-title": "" } }, [
-                        _c(
-                          "h3",
-                          { staticClass: "headline mb-0" },
-                          [
-                            _c("v-icon", { attrs: { large: "" } }, [
-                              _vm._v("search")
-                            ]),
-                            _vm._v(" Search")
-                          ],
-                          1
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-text",
-                        [
-                          _c(
-                            "v-container",
-                            { attrs: { fluid: "", "grid-list-md": "" } },
-                            [
-                              _c(
-                                "v-layout",
-                                { attrs: { row: "", wrap: "" } },
-                                [
-                                  _c(
-                                    "v-flex",
-                                    { attrs: { xs8: "", md11: "" } },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          name: "search_query",
-                                          label: "検索キーワード"
-                                        },
-                                        model: {
-                                          value: _vm.search_query,
-                                          callback: function($$v) {
-                                            _vm.search_query = $$v
-                                          },
-                                          expression: "search_query"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-flex",
-                                    { attrs: { xs4: "", md1: "" } },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            loading: _vm.searching,
-                                            disabled: _vm.searching,
-                                            color: "primary",
-                                            block: ""
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.search()
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\r\n                    検索\r\n                  "
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _vm.search_result.length > 0
-                            ? _c(
-                                "v-list",
-                                { attrs: { "two-line": "" } },
-                                _vm._l(_vm.search_result, function(item) {
-                                  return _c(
-                                    "v-list-tile",
-                                    {
-                                      key: item.id.videoId,
-                                      attrs: { avatar: "" }
-                                    },
-                                    [
-                                      _c("v-list-tile-avatar", [
-                                        _c("img", {
-                                          attrs: {
-                                            src:
-                                              item.snippet.thumbnails.medium.url
-                                          }
-                                        })
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-list-tile-content",
-                                        [
-                                          _c("v-list-tile-title", [
-                                            _vm._v(_vm._s(item.snippet.title))
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("v-list-tile-sub-title", [
-                                            _vm._v(
-                                              "by " +
-                                                _vm._s(
-                                                  item.snippet.channelTitle
-                                                )
-                                            )
-                                          ])
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-list-tile-action",
-                                        [
-                                          _c(
-                                            "v-btn",
-                                            {
-                                              attrs: { icon: "", ripple: "" },
+                                  })
+                                )
+                              : _c(
+                                  "v-card-text",
+                                  { staticClass: "text-xs-center" },
+                                  [
+                                    _c("p", { staticClass: "headline" }, [
+                                      _vm._v("キューに曲がありません")
+                                    ])
+                                  ]
+                                ),
+                            _vm._v(" "),
+                            _c("v-divider"),
+                            _vm._v(" "),
+                            _c(
+                              "v-container",
+                              { attrs: { fluid: "", "grid-list-md": "" } },
+                              [
+                                _c(
+                                  "v-layout",
+                                  { attrs: { row: "", wrap: "" } },
+                                  [
+                                    _c(
+                                      "v-flex",
+                                      { attrs: { xs12: "", md6: "" } },
+                                      [
+                                        _c(
+                                          "v-container",
+                                          [
+                                            _c("v-slider", {
+                                              attrs: {
+                                                "prepend-icon": "volume_up",
+                                                "thumb-label": ""
+                                              },
                                               on: {
-                                                click: function($event) {
-                                                  _vm.add(item)
+                                                min: function($event) {
+                                                  0
+                                                },
+                                                max: function($event) {
+                                                  100
+                                                },
+                                                input: function($event) {
+                                                  _vm.vchange()
                                                 }
+                                              },
+                                              model: {
+                                                value: _vm.volume,
+                                                callback: function($$v) {
+                                                  _vm.volume = $$v
+                                                },
+                                                expression: "volume"
                                               }
-                                            },
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-flex",
+                                      { attrs: { xs12: "", md6: "" } },
+                                      [
+                                        _c("v-container", [
+                                          _c(
+                                            "div",
+                                            { staticClass: "text-xs-right" },
                                             [
-                                              _c("v-icon", [
-                                                _vm._v("playlist_add")
-                                              ])
+                                              _c(
+                                                "v-tooltip",
+                                                { attrs: { top: "" } },
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      attrs: {
+                                                        slot: "activator",
+                                                        icon: "",
+                                                        ripple: "",
+                                                        disabled: ""
+                                                      },
+                                                      slot: "activator"
+                                                    },
+                                                    [
+                                                      _c("v-icon", [
+                                                        _vm._v("skip_next")
+                                                      ])
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("span", [
+                                                    _vm._v("実装予定")
+                                                  ])
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-tooltip",
+                                                { attrs: { top: "" } },
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      attrs: {
+                                                        slot: "activator",
+                                                        icon: "",
+                                                        ripple: "",
+                                                        disabled: ""
+                                                      },
+                                                      slot: "activator"
+                                                    },
+                                                    [
+                                                      _c("v-icon", [
+                                                        _vm._v(
+                                                          "power_settings_new"
+                                                        )
+                                                      ])
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("span", [
+                                                    _vm._v("実装予定")
+                                                  ])
+                                                ],
+                                                1
+                                              )
                                             ],
                                             1
                                           )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                })
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-snackbar",
-        {
-          attrs: { bottom: "", color: _vm.snack_color },
-          model: {
-            value: _vm.snack_visible,
-            callback: function($$v) {
-              _vm.snack_visible = $$v
-            },
-            expression: "snack_visible"
-          }
-        },
-        [
-          _vm._v("\r\n    " + _vm._s(_vm.snack_message) + "\r\n    "),
-          _c(
-            "v-btn",
-            {
-              attrs: { dark: "", flat: "" },
-              nativeOn: {
-                click: function($event) {
-                  _vm.snack_visible = false
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-flex",
+                      { attrs: { xs12: "" } },
+                      [
+                        _c(
+                          "v-card",
+                          [
+                            _c(
+                              "v-card-title",
+                              { attrs: { "primary-title": "" } },
+                              [
+                                _c(
+                                  "h3",
+                                  { staticClass: "headline mb-0" },
+                                  [
+                                    _c("v-icon", { attrs: { large: "" } }, [
+                                      _vm._v("search")
+                                    ]),
+                                    _vm._v(" Search")
+                                  ],
+                                  1
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-card-text",
+                              [
+                                _c(
+                                  "v-container",
+                                  { attrs: { fluid: "", "grid-list-md": "" } },
+                                  [
+                                    _c(
+                                      "v-layout",
+                                      { attrs: { row: "", wrap: "" } },
+                                      [
+                                        _c(
+                                          "v-flex",
+                                          {
+                                            attrs: {
+                                              xs8: "",
+                                              sm10: "",
+                                              lg11: ""
+                                            }
+                                          },
+                                          [
+                                            _c("v-text-field", {
+                                              attrs: {
+                                                name: "search_query",
+                                                label: "検索キーワード"
+                                              },
+                                              model: {
+                                                value: _vm.search_query,
+                                                callback: function($$v) {
+                                                  _vm.search_query = $$v
+                                                },
+                                                expression: "search_query"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-flex",
+                                          {
+                                            attrs: { xs4: "", sm2: "", lg1: "" }
+                                          },
+                                          [
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: {
+                                                  loading: _vm.searching,
+                                                  disabled: _vm.searching,
+                                                  color: "primary",
+                                                  block: ""
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.search()
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c("v-icon", [_vm._v("search")])
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _vm.search_result.length > 0
+                                  ? _c(
+                                      "v-list",
+                                      { attrs: { "two-line": "" } },
+                                      _vm._l(_vm.search_result, function(item) {
+                                        return _c(
+                                          "v-list-tile",
+                                          {
+                                            key: item.id.videoId,
+                                            attrs: { avatar: "" }
+                                          },
+                                          [
+                                            _c("v-list-tile-avatar", [
+                                              _c("img", {
+                                                attrs: {
+                                                  src:
+                                                    item.snippet.thumbnails
+                                                      .medium.url
+                                                }
+                                              })
+                                            ]),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list-tile-content",
+                                              [
+                                                _c("v-list-tile-title", [
+                                                  _vm._v(
+                                                    _vm._s(item.snippet.title)
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _c("v-list-tile-sub-title", [
+                                                  _vm._v(
+                                                    "by " +
+                                                      _vm._s(
+                                                        item.snippet
+                                                          .channelTitle
+                                                      )
+                                                  )
+                                                ])
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list-tile-action",
+                                              [
+                                                _c(
+                                                  "v-btn",
+                                                  {
+                                                    attrs: {
+                                                      icon: "",
+                                                      ripple: ""
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.add(item)
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-icon", [
+                                                      _vm._v("playlist_add")
+                                                    ])
+                                                  ],
+                                                  1
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      })
+                                    )
+                                  : _vm._e()
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-snackbar",
+              {
+                attrs: { bottom: "", color: _vm.snack_color },
+                model: {
+                  value: _vm.snack_visible,
+                  callback: function($$v) {
+                    _vm.snack_visible = $$v
+                  },
+                  expression: "snack_visible"
                 }
-              }
-            },
-            [_vm._v("Close")]
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
+              },
+              [
+                _vm._v("\r\n      " + _vm._s(_vm.snack_message) + "\r\n      "),
+                _c(
+                  "v-btn",
+                  {
+                    attrs: { dark: "", flat: "" },
+                    nativeOn: {
+                      click: function($event) {
+                        _vm.snack_visible = false
+                      }
+                    }
+                  },
+                  [_vm._v("Close")]
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
+      : _c(
+          "div",
+          [
+            _c(
+              "v-container",
+              { attrs: { fluid: "" } },
+              [
+                _c(
+                  "v-alert",
+                  {
+                    attrs: {
+                      color: "warning",
+                      icon: "priority_high",
+                      value: "true",
+                      transition: "scale-transition"
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\r\n        チャンネルに接続されていません\r\n      "
+                    )
+                  ]
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
