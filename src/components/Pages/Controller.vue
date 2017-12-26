@@ -226,7 +226,7 @@ export default {
         guild: this.guild
       }
       this.$socket.emit('add', data)
-      this.snack_message = '曲 '+ data.id + 'を追加しました'
+      this.snack_message = 'キューに追加しました!'
       this.snack_color = "success";
       this.snack_visible = true;
     },
@@ -235,7 +235,7 @@ export default {
         index: key,
         id: this.guild,
       }
-      this.snack_message = '曲を削除しました'
+      this.snack_message = 'キューから削除しました!'
       this.snack_color = "success";
       this.snack_visible = true;
       this.$socket.emit('remove', data)
