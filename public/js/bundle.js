@@ -20066,6 +20066,12 @@ if (inBrowser && window.Vue) {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -44934,6 +44940,27 @@ var render = function() {
                       _vm._v(
                         "\n          不具合を発見したらかずえもん(@mcpe_kazuemon)までお問い合わせください\n        "
                       )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-alert",
+                    {
+                      attrs: {
+                        color: "error",
+                        icon: "warning",
+                        value: "true",
+                        transition: "scale-transition"
+                      }
+                    },
+                    [
+                      _c("b", [_vm._v("既知の不具合")]),
+                      _vm._v(" "),
+                      _c("ul", [
+                        _c("li", [
+                          _vm._v("1回しか押していないのに2曲スキップされる")
+                        ])
+                      ])
                     ]
                   )
                 ],

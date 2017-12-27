@@ -8,6 +8,12 @@
             テスト運用中です<br>
             不具合を発見したらかずえもん(@mcpe_kazuemon)までお問い合わせください
           </v-alert>
+          <v-alert color="error" icon="warning" value="true" transition="scale-transition">
+            <b>既知の不具合</b>
+            <ul>
+              <li>1回しか押していないのに2曲スキップされる</li>
+            </ul>
+          </v-alert>
         </v-container>
         <router-view></router-view>
       </v-content>
