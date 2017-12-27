@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { mapState,mapMutations,mapActions } from 'vuex'
+
 import pageheader from './Layouts/Header.vue'
 import pagefooter from './Layouts/Footer.vue'
 
@@ -24,6 +26,12 @@ export default {
   components: {
     pageheader,
     pagefooter
+  },
+  sockets: {
+  },
+  methods: {
+  },
+  computed:{
   }
 }
 </script>
