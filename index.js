@@ -86,6 +86,12 @@ io.sockets.on('connection', socket => {
       .then(volume => socket.broadcast.to(data.id).emit('volume', volume))
       .catch(error => socket.emit('err', error))
   })
+
+  socket.on('skip', id => {
+    if (!guilds.has(id)) socket.emit('err', 'UNTREATED_CHANNEL')
+    else guilds.get(id).skip()
+      .catch(error => socket.emit('err', error))
+  })
 })
 
 client.on('ready', () => {
