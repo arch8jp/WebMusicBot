@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './src/vue.js',
+  entry: ["babel-polyfill", './src/vue.js'],
   output: {
     path: __dirname,
     filename: './public/js/bundle.js'

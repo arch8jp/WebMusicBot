@@ -2,25 +2,13 @@ import Vuex from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
 
-const state = {
-  message: 'こんにちは'
-}
+const state = {}
 
-const actions = {
-  updateAsync ({commit, dispatch, state, rootState, getters, rootGetters}, payload) {
-    setTimeout(() => {
-      commit('update',payload)
-    }, 2000)
-  }
-}
+const actions = {}
 
 const getters = {}
 
-const mutations = {
-  update (state,payload) {
-    state.message = payload;
-  }
-}
+const mutations = {}
 
 export default new Vuex.Store({
   state,
