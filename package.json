@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/IntegratedDevelopmentGroup/WebMusicBot#readme",
   "dependencies": {
+    "css-loader": "^0.28.7",
     "discord.js": "^11.2.1",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
