@@ -9,7 +9,7 @@ export default new Router({
   routes: [
     {
       path: '/controller/:id',
-      component: Controller
-    }
-  ]
+      component: Controller,
+    },
+  ],
 })
