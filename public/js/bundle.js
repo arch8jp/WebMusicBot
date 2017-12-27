@@ -20346,7 +20346,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     volume: function volume(_volume) {
       this.volume = _volume;
     },
-    err: function err(code) {}
+    err: function err(code) {
+      console.log(code);
+    }
   },
   methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapMutations"])(['connect_ready', 'connect_disconnect']), {
     search: function search() {
@@ -20385,7 +20387,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       this.search_panel = false;
       this.search_result = {};
     },
-    skip: function skip() {
+    music_skip: function music_skip() {
       this.$socket.emit('skip', this.connect_guildid);
       this.skip_block = true;
       var self = this;
@@ -45213,7 +45215,7 @@ var render = function() {
                                         },
                                         on: {
                                           click: function($event) {
-                                            _vm.skip()
+                                            _vm.music_skip()
                                           }
                                         },
                                         slot: "activator"

@@ -48,7 +48,7 @@
                 <span>一時停止中</span>
               </v-tooltip>
               <v-tooltip top>
-                <v-btn icon ripple slot="activator" :disabled="skip_block" @click="skip()">
+                <v-btn icon ripple slot="activator" :disabled="skip_block" @click="music_skip()">
                   <v-icon>skip_next</v-icon>
                 </v-btn>
                 <span>曲をスキップ</span>
@@ -184,7 +184,7 @@ export default {
       this.volume = volume
     },
     err(code){
-
+      console.log(code)
     }
   },
   methods: {
@@ -228,7 +228,7 @@ export default {
       this.search_panel = false;
       this.search_result = {}
     },
-    skip(){
+    music_skip(){
       this.$socket.emit('skip', this.connect_guildid);
       this.skip_block = true;
       var self = this

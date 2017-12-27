@@ -56,6 +56,7 @@ class VoiceChannel {
     return new Promise((resolve, reject) => {
       if (!this.dispatcher) return reject('NOT_PLAYING_YET')
       this.dispatcher.end()
+      console.log("Skipped");
     })
   }
 }
