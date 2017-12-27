@@ -56,7 +56,7 @@
               <v-layout row wrap>
                 <v-flex xs12 md6>
                   <v-container>
-                    <v-slider prepend-icon="volume_up" @min="0" @max="100" @input="vchange()" v-model="volume" thumb-label></v-slider>
+                    <v-slider prepend-icon="volume_up" @min="0" @max="100" @input="vchange()" :disabled="queue.length == 0" v-model="volume" thumb-label></v-slider>
                   </v-container>
                 </v-flex>
                 <v-flex xs12 md6>

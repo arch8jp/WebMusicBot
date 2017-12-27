@@ -35247,6 +35247,7 @@ var render = function() {
                                             _c("v-slider", {
                                               attrs: {
                                                 "prepend-icon": "volume_up",
+                                                disabled: _vm.queue.length == 0,
                                                 "thumb-label": ""
                                               },
                                               on: {
