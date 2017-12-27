@@ -53,6 +53,7 @@ io.sockets.on('connection', socket => {
     }
     socket.join(guild.id)
     socket.emit('volume', guilds.get(guild.id).volume)
+    socket.emit('list', guilds.get(guild.id).queue)
     socket.emit('ready', {
       guild: guild.name,
       channel: channel.name,
