@@ -45,7 +45,7 @@
                 <v-btn icon ripple slot="activator" disabled>
                   <v-icon>volume_up</v-icon>
                 </v-btn>
-                <span>実装予定</span>
+                <span>一時停止中</span>
               </v-tooltip>
               <v-tooltip top>
                 <v-btn icon ripple slot="activator" disabled>
@@ -129,7 +129,7 @@
   </div>
 
   <div v-else>
-    <v-container fluid>
+    <v-container>
       <v-alert color="warning" icon="priority_high" value="true" transition="scale-transition">
         チャンネルに接続されていません
       </v-alert>
@@ -200,7 +200,7 @@ export default {
         id: item.id.videoId,
         img: item.snippet.thumbnails.medium.url,
         title: item.snippet.title,
-        guild: this.connect_guild
+        guild: this.connect_guildid
       }
       this.$socket.emit('add', data)
       this.add_block = true;
@@ -212,14 +212,14 @@ export default {
     del(item,key){
       const data = {
         index: key,
-        id: this.connect_guild,
+        id: this.connect_guildid,
       }
       this.$socket.emit('remove', data)
     },
     vchange(){
       const data = {
         volume: this.volume,
-        id: this.connect_guild
+        id: this.connect_guildid
       }
       this.$socket.emit('volume', data);
     },
@@ -232,6 +232,7 @@ export default {
     ...mapState([
       'isConnected',
       'connect_guild',
+      'connect_guildid',
       'connect_channel'
     ])
   }
