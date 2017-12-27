@@ -10,9 +10,9 @@
           </v-alert>
           <v-alert color="error" icon="warning" value="true" transition="scale-transition">
             <b>既知の不具合</b>
-            <ul>
-              <li>1回しか押していないのに2曲スキップされる</li>
-            </ul>
+            <p>
+              1回しか押していないのに2曲スキップされる<br>
+            </p>
           </v-alert>
         </v-container>
         <router-view></router-view>
