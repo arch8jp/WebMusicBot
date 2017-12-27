@@ -11,7 +11,7 @@
           <v-alert color="error" icon="warning" value="true" transition="scale-transition">
             <b>既知の不具合</b>
             <p>
-              1回しか押していないのに2曲スキップされる<br>
+              1回しか押していないのに2曲スキップされる
             </p>
           </v-alert>
         </v-container>
