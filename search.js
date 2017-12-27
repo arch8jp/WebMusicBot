@@ -11,7 +11,7 @@ module.exports = q => {
         part: 'snippet',
         type: 'video',
         key: process.env.YOUTUBE_APIKEY,
-        maxResults: 30,
+        maxResults: 10,
       },
       json: true,
     }, (error, req, data) => {
