@@ -26358,17 +26358,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 const socket = __WEBPACK_IMPORTED_MODULE_7_socket_io_client__["connect"]()
 
 // Uses
-__WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODULE_2_vuetify___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODULE_6_vue_socket_io___default.a, socket);
+__WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODULE_2_vuetify___default.a)
+__WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */])
+__WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODULE_6_vue_socket_io___default.a, socket)
 
 // App
 new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */]({
   el: '#app',
   router: __WEBPACK_IMPORTED_MODULE_4__router__["a" /* default */],
   render: h => h(__WEBPACK_IMPORTED_MODULE_3__components_App_vue__["a" /* default */]),
-  store: __WEBPACK_IMPORTED_MODULE_5__vuex_store__["a" /* default */]
-});
+  store: __WEBPACK_IMPORTED_MODULE_5__vuex_store__["a" /* default */],
+})
 
 
 /***/ }),
@@ -43953,9 +43953,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODU
   routes: [
     {
       path: '/controller/:id',
-      component: __WEBPACK_IMPORTED_MODULE_2__components_Pages_Controller_vue__["a" /* default */]
-    }
-  ]
+      component: __WEBPACK_IMPORTED_MODULE_2__components_Pages_Controller_vue__["a" /* default */],
+    },
+  ],
 }));
 
 
@@ -44537,7 +44537,7 @@ const mutations = {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }));
 
 
