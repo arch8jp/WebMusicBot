@@ -42,7 +42,6 @@ io.sockets.on('connection', socket => {
     const guild = channel.guild
     // 同じギルドのボイチャに参加済み
     if (guilds.has(guild.id)) {
-      io.to(guild.id).emit('list', guilds.has(guild.id).queue)
       if (guilds.get(guild.id).id !== channel.id)
         return socket.emit('err', 'ALREADY_JOINED')
     } else {
