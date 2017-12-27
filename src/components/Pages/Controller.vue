@@ -48,10 +48,10 @@
                 <span>一時停止中</span>
               </v-tooltip>
               <v-tooltip top>
-                <v-btn icon ripple slot="activator" disabled>
+                <v-btn icon ripple slot="activator" :disabled="skip_block" @click="skip()">
                   <v-icon>skip_next</v-icon>
                 </v-btn>
-                <span>実装予定</span>
+                <span>曲をスキップ</span>
               </v-tooltip>
               <v-tooltip top>
                 <v-btn icon ripple slot="activator" disabled>
@@ -153,7 +153,8 @@ export default {
       search_panel: false,
       queue: [],
       searching: false,
-      add_block: false
+      add_block: false,
+      skip_block: false
     }
   },
   mounted: function() {
@@ -226,6 +227,14 @@ export default {
     clearSearch(){
       this.search_panel = false;
       this.search_result = {}
+    },
+    skip(){
+      this.$socket.emit('skip', this.connect_guildid);
+      this.skip_block = true;
+      var self = this
+      setTimeout(function(){
+        self.skip_block = false;
+      }, 3000);
     }
   },
   computed: {
@@ -234,7 +243,7 @@ export default {
       'connect_guild',
       'connect_guildid',
       'connect_channel'
-    ])
+    ]),
   }
 }
 </script>

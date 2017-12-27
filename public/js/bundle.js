@@ -20315,7 +20315,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       search_panel: false,
       queue: [],
       searching: false,
-      add_block: false
+      add_block: false,
+      skip_block: false
     };
   },
 
@@ -20383,6 +20384,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     clearSearch: function clearSearch() {
       this.search_panel = false;
       this.search_result = {};
+    },
+    skip: function skip() {
+      this.$socket.emit('skip', this.connect_guildid);
+      this.skip_block = true;
+      var self = this;
+      setTimeout(function () {
+        self.skip_block = false;
+      }, 3000);
     }
   }),
   computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["mapState"])(['isConnected', 'connect_guild', 'connect_guildid', 'connect_channel']))
@@ -45200,7 +45209,12 @@ var render = function() {
                                           slot: "activator",
                                           icon: "",
                                           ripple: "",
-                                          disabled: ""
+                                          disabled: _vm.skip_block
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.skip()
+                                          }
                                         },
                                         slot: "activator"
                                       },
@@ -45208,7 +45222,7 @@ var render = function() {
                                       1
                                     ),
                                     _vm._v(" "),
-                                    _c("span", [_vm._v("実装予定")])
+                                    _c("span", [_vm._v("曲をスキップ")])
                                   ],
                                   1
                                 ),
