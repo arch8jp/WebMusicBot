@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar color="indigo" dark fixed app>
+    <v-toolbar dark color="primary" dark fixed app>
       <v-toolbar-title>WebMusicBot</v-toolbar-title>
       <v-spacer></v-spacer>
 

@@ -39,6 +39,10 @@
 
             <v-divider></v-divider>
 
+            <v-container>
+              <v-slider prepend-icon="volume_up" @min="0" @max="100" @input="vchange()" :disabled="queue.length == 0" v-model="volume" thumb-label></v-slider>
+            </v-container>
+
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-tooltip top>
@@ -72,13 +76,15 @@
             </v-card-title>
 
             <v-card-text>
-              <v-form v-on:submit.prevent="search()">
-              <v-text-field
-                name="search_query"
-                label="検索キーワード"
-                v-model="search_query"
-              ></v-text-field>
-              </v-form>
+              <v-container>
+                <v-form v-on:submit.prevent="search()">
+                <v-text-field
+                  name="search_query"
+                  label="検索キーワード"
+                  v-model="search_query"
+                ></v-text-field>
+                </v-form>
+              </v-container>
             </v-card-text>
 
             <v-card-actions>

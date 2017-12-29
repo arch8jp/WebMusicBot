@@ -39,6 +39,7 @@ class VoiceChannel {
         if (this.queue[0]) this.loop()
         else this.channel.leave()
       })
+      this.dispatcher.setVolume(0.1);
     }).catch(console.error)
   }
 
@@ -46,7 +47,7 @@ class VoiceChannel {
     return new Promise((resolve, reject) => {
       if (this.volume === volume) return
       if (!this.dispatcher) return reject('NOT_PLAYING_YET')
-      this.dispatcher.setVolume(volume / 100)
+      this.dispatcher.setVolume(volume / 1000)
       this.volume = volume
       resolve(volume)
     })
