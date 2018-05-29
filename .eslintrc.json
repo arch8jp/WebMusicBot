@@ -6,9 +6,28 @@
   },
   "extends": "eslint:recommended",
   "parserOptions": {
+    "ecmaVersion": 2017,
     "sourceType": "module"
   },
   "rules": {
+    "arrow-parens": [
+      "warn",
+      "as-needed"
+    ],
+    "arrow-spacing": "error",
+    "block-spacing": "error",
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "comma-style": [
+      "error",
+      "last"
+    ],
+    "eqeqeq": [
+      "error",
+      "always"
+    ],
     "indent": [
       "error",
       2,
@@ -16,33 +35,17 @@
         "SwitchCase": 1
       }
     ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "never"
-    ],
+    "key-spacing": "error",
+    "keyword-spacing": "error",
     "no-console": "off",
-    "comma-dangle": [
-      "error",
-      "always-multiline"
+    "no-extra-parens": [
+      "warn",
+      "all",
+      {
+        "nestedBinaryExpressions": false
+      }
     ],
-    "eqeqeq": [
-      "error",
-      "always"
-    ],
-    "no-var": "error",
-    "prefer-const": "error",
-    "comma-style": [
-      "error",
-      "last"
-    ],
+    "no-implicit-coercion": "error",
     "no-multiple-empty-lines": [
       "error",
       {
@@ -51,8 +54,17 @@
       }
     ],
     "no-spaced-func": "error",
-    "keyword-spacing": "error",
-    "space-before-blocks": "error",
-    "key-spacing": "error"
+    "no-var": "error",
+    "prefer-arrow-callback": "error",
+    "prefer-const": "error",
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
+    "space-before-blocks": "error"
   }
 }

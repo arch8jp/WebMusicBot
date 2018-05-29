@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node index.js",
-    "webpack": "webpack -w"
+    "webpack": "webpack -w",
+    "lint": "eslint **/*.js"
   },
   "repository": {
     "type": "git",

@@ -30,7 +30,8 @@ class VoiceChannel {
 
   loop() {
     this.playing = true
-    const stream = ytdl(`https://www.youtube.com/watch?v=${this.queue[0].id}`, {filter: 'audioonly'})
+    console.log(this.queue[0].id)
+    const stream = ytdl(this.queue[0].id, {filter: 'audioonly'})
     this.channel.join().then(connection => {
       this.dispatcher = connection.playStream(stream).on('end', () => {
         this.playing = false
@@ -38,8 +39,8 @@ class VoiceChannel {
         this.callback(this.queue)
         if (this.queue[0]) this.loop()
         else this.channel.leave()
-      })
-      this.dispatcher.setVolume(0.1);
+      }).on('error', console.error)
+      this.dispatcher.setVolume(0.1)
     }).catch(console.error)
   }
 
@@ -57,7 +58,7 @@ class VoiceChannel {
     return new Promise((resolve, reject) => {
       if (!this.dispatcher) return reject('NOT_PLAYING_YET')
       this.dispatcher.end()
-      console.log("Skipped");
+      console.log('Skipped')
     })
   }
 }
