@@ -11,5 +11,5 @@ module.exports = q => {
     maxResults: 10,
   })
   return fetch('https://www.googleapis.com/youtube/v3/search?' + qs)
-    .then(res => res.json())
+    .then(res => res.json()).catch(err => console.error(err))
 }

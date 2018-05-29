@@ -26,15 +26,21 @@ io.use((socket, next) => {
 })
 
 io.sockets.on('connection', socket => {
+  const error = id => socket.emit('err', id)
   socket.on('init', id => {
+    const session = socket.request.session
+    if (!session.user.id) return error('UNAUTHORIZED')
     const channel = client.channels.get(id)
-    if (!channel || channel.type !== 'voice')
-      return socket.emit('err', 'INVAILD_CHANNEL_ID')
+    if (!channel) return error('INVAILD_CHANNEL')
+    if (channel.type !== 'voice') return error('INVAILD_CAHHNEL_TYPE')
+    if (channel.full) return error('CHANNEL_IS_FULL')
+    if (!channel.joinable) return error('MISSING_PERMISSION')
+    if (!channel.speakable) return error('MISSING_PERMISSION')
+    if (!channel.member.has(session.user.id)) return error('USER_NOT_JOINED')
     const guild = channel.guild
     // 同じギルドのボイチャに参加済み
     if (guilds.has(guild.id)) {
-      if (guilds.get(guild.id).id !== channel.id)
-        return socket.emit('err', 'ALREADY_JOINED')
+      if (guilds.get(guild.id).id !== channel.id) return error('ALREADY_JOINED')
     } else {
       // Botが参加していない
       guilds.set(guild.id, new VoiceChannel(channel, queue => {
@@ -52,9 +58,7 @@ io.sockets.on('connection', socket => {
   })
 
   socket.on('q', q => {
-    search(q)
-      .then(data => socket.emit('result', data))
-      .catch(error => socket.emit('err', error))
+    search(q).then(data => socket.emit('result', data))
   })
 
   socket.on('add', data => {
