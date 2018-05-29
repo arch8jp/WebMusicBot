@@ -1,9 +1,9 @@
-require('dotenv').config()
+const { parsed: env } = require('dotenv').load()
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const express = require('express')
 const app = express()
-const server = app.listen(Number(process.env.SERVER_PORT))
+const server = app.listen(Number(env.SERVER_PORT))
 const io = require('socket.io').listen(server)
 const session = require('./session')
 const path = require('path')
@@ -98,6 +98,6 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
 })
 
-client.login(process.env.DISCORD_TOKEN)
+client.login(env.DISCORD_TOKEN)
 
 process.on('unhandledRejection', console.log)
