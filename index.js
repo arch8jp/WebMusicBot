@@ -6,29 +6,20 @@ const app = express()
 const server = app.listen(Number(env.SERVER_PORT))
 const io = require('socket.io').listen(server)
 const session = require('./session')
-const path = require('path')
-const discord = require('./discord')
 const search = require('./search')
 const VoiceChannel = require('./VoiceChannel')
 const guilds = new Discord.Collection()
 
 app.use(session)
+app.use(express.static('public'))
+app.use(require('./routes/index'))
+app.use(require('./routes/discord'))
 
 app.get('/status', (req, res) => res.send({
   guilds: client.guilds.size,
   playing: guilds.filter(e => e.playing).size,
   loadedGuilds: guilds.size,
 }))
-
-app.get('/controller/:id', (req, res) => {
-  res.sendFile('public/controller.html', { root: __dirname })
-})
-
-app.use('/', express.static(path.join(__dirname, 'public')))
-
-app.get('/login', discord.login)
-app.get('/logout', discord.logout)
-app.get('/callback', discord.callback)
 
 io.use((socket, next) => {
   session(socket.request, socket.request.res, next)
