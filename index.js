@@ -29,7 +29,7 @@ io.sockets.on('connection', socket => {
   const error = id => socket.emit('err', id)
   socket.on('init', id => {
     const session = socket.request.session
-    if (!session.user.id) return error('UNAUTHORIZED')
+    if (!session.user || !session.user.id) return error('UNAUTHORIZED')
     const channel = client.channels.get(id)
     if (!channel) return error('INVAILD_CHANNEL')
     if (channel.type !== 'voice') return error('INVAILD_CAHHNEL_TYPE')
