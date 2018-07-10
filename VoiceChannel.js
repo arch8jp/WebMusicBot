@@ -50,6 +50,9 @@ class VoiceChannel {
     return new Promise((resolve, reject) => {
       if (this.volume === volume) return
       if (!this.dispatcher) return reject('NOT_PLAYING_YET')
+      // FrontEnd 0  25 50  75 100
+      // Discord  0 0.5  1 1.5   2
+      // vol * 2 / 100 = vol / 50
       this.dispatcher.setVolume(volume / 1000)
       this.volume = volume
       resolve(volume)
