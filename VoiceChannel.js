@@ -22,7 +22,7 @@ class VoiceChannel {
 
   remove(index) {
     return new Promise((resolve, reject) => {
-      if (typeof index !== 'number' || index === 0) return reject('INVAILD_VALUE')
+      if (typeof index !== 'number' || index < 1) return reject('INVAILD_VALUE')
       this.queue.splice(index, 1)
       resolve(this.queue)
     })
