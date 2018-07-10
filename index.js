@@ -10,6 +10,8 @@ const search = require('./search')
 const VoiceChannel = require('./VoiceChannel')
 const guilds = new Discord.Collection()
 
+if (env.DEV) app.use(require('morgan')('dev'))
+
 app.use(session)
 app.use(express.static('public'))
 app.use(require('./routes/index'))
