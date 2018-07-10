@@ -31,9 +31,11 @@ class VoiceChannel {
   loop() {
     this.playing = true
     console.log(this.queue[0].id)
+    this.setTitle(this.queue.title)
     const stream = ytdl(this.queue[0].id, {filter: 'audioonly'})
     this.channel.join().then(connection => {
       this.dispatcher = connection.playStream(stream).on('end', () => {
+        this.setTitle()
         this.playing = false
         this.queue.shift()
         this.callback(this.queue)
@@ -60,6 +62,13 @@ class VoiceChannel {
       this.dispatcher.end()
       console.log('Skipped')
     })
+  }
+
+  setTitle(title) {
+    const me = this.guild.me
+    if (!me || !me.hasPermission('CHANGE_NICKNAME')) return
+    if (title) me.setNickname(title + 'を再生中')
+    else me.setNickname(null)
   }
 }
 
