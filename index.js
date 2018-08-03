@@ -47,7 +47,7 @@ io.sockets.on('connection', socket => {
     if (channel.full) return error('CHANNEL_IS_FULL')
     if (!channel.joinable) return error('MISSING_PERMISSION')
     if (!channel.speakable) return error('MISSING_PERMISSION')
-    if (!channel.member.has(session.user.id)) return error('USER_NOT_JOINED')
+    if (!channel.members.has(session.user.id)) return error('USER_NOT_JOINED')
     const guild = channel.guild
     // 同じギルドのボイチャに参加済み
     if (guilds.has(guild.id)) {
