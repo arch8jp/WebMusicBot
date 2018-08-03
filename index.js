@@ -45,7 +45,7 @@ io.sockets.on('connection', socket => {
     if (!session.user || !session.user.id) return error('UNAUTHORIZED')
     const channel = client.channels.get(id)
     if (!channel) return error('INVAILD_CHANNEL')
-    if (channel.type !== 'voice') return error('INVAILD_CAHHNEL_TYPE')
+    if (channel.type !== 'voice') return error('INVAILD_CHANNEL_TYPE')
     if (channel.full) return error('CHANNEL_IS_FULL')
     if (!channel.joinable) return error('MISSING_PERMISSION')
     if (!channel.speakable) return error('MISSING_PERMISSION')
