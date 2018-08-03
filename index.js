@@ -23,6 +23,15 @@ app.get('/status', (req, res) => res.send({
   loadedGuilds: guilds.size,
 }))
 
+app.get('/', (req, res) => {
+  if (!req.session || !req.session.user) return res.redirect('/login')
+  const channel = client.channels.filter(channel => {
+    return channel.type === 'voice' && channel.members.has(req.session.user.id)
+  }).first()
+  if (channel) res.redirect('/controller/' + channel.id)
+  else res.send(client.user.tag + 'がいるサーバーのボイスチャンネルに参加してください')
+})
+
 io.use((socket, next) => {
   session(socket.request, socket.request.res, next)
 })
