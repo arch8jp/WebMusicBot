@@ -31,7 +31,7 @@ class VoiceChannel {
   loop() {
     this.playing = true
     console.log(this.queue[0].id)
-    this.setTitle(this.queue.title)
+    this.setTitle(this.queue[0].title)
     const stream = ytdl(this.queue[0].id, {filter: 'audioonly'})
     this.channel.join().then(connection => {
       this.dispatcher = connection.playStream(stream).on('end', () => {
