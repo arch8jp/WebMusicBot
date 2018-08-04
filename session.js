@@ -6,7 +6,7 @@ module.exports = session({
   resave: false,
   saveUninitialized: false,
   rolling: true,
-  store: new FileStore(),
+  store: new FileStore({ logFn: () => {} }),
   cookie: {
     httpOnly: true,
     secure: false,
