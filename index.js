@@ -75,30 +75,30 @@ io.sockets.on('connection', socket => {
   })
 
   socket.on('add', data => {
-    if (!guilds.has(data.guild)) socket.emit('err', 'UNTREATED_CHANNEL')
+    if (!guilds.has(data.guild)) error('UNTREATED_CHANNEL')
     else guilds.get(data.guild).add(data)
       .then(list => io.to(data.guild).emit('list', list))
-      .catch(error => socket.emit('err', error))
+      .catch(err => error(err))
   })
 
   socket.on('remove', data => {
-    if (!guilds.has(data.id)) socket.emit('err', 'UNTREATED_CHANNEL')
+    if (!guilds.has(data.id)) error('UNTREATED_CHANNEL')
     else guilds.get(data.id).remove(data.index)
       .then(list => io.to(data.id).emit('list', list))
-      .catch(error => socket.emit('err', error))
+      .catch(err => error(err))
   })
 
   socket.on('volume', data => {
-    if (!guilds.has(data.id)) socket.emit('err', 'UNTREATED_CHANNEL')
+    if (!guilds.has(data.id)) error('UNTREATED_CHANNEL')
     else guilds.get(data.id).setVolume(data.volume)
       .then(volume => socket.broadcast.to(data.id).emit('volume', volume))
-      .catch(error => socket.emit('err', error))
+      .catch(err => error(err))
   })
 
   socket.on('skip', id => {
-    if (!guilds.has(id)) socket.emit('err', 'UNTREATED_CHANNEL')
+    if (!guilds.has(id)) error('UNTREATED_CHANNEL')
     else guilds.get(id).skip()
-      .catch(error => socket.emit('err', error))
+      .catch(err => error(err))
   })
 })
 
