@@ -70,8 +70,9 @@ class VoiceChannel {
   setTitle(title) {
     const me = this.guild.me
     if (!me || !me.hasPermission('CHANGE_NICKNAME')) return
-    if (title) me.setNickname(title + 'を再生中')
-    else me.setNickname(null)
+    if (!title) return me.setNickname(null)
+    if (title.length > 28) title = title.slice(0, 25) + '...'
+    me.setNickname(title + 'を再生中')
   }
 }
 
