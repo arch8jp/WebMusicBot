@@ -12,6 +12,7 @@ const messages = {
   USER_NOT_JOINED: 'ボイスチャンネルに参加してください',
   ALREADY_JOINED: 'すでに参加しています',
   UNTREATED_CHANNEL: 'チャンネルが読み込まれていません',
+  INVAILD_TYPE: 'タイプが正しくありません',
 }
 
 const app = new Vue({
@@ -20,6 +21,7 @@ const app = new Vue({
     name: 'WebMusicController',
     loading: false,
     query: '',
+    type: 'api',
     result: [],
     list: [],
     volume: 100,
@@ -36,9 +38,10 @@ const app = new Vue({
       methods: {
         add() {
           const data = {
-            id: this.item.id,
+            url: this.item.url,
             thumbnail: this.item.thumbnail,
             title: this.item.title,
+            type: this.item.type,
             guild,
           }
           console.log('socket', 'emit', 'add', data)
@@ -68,8 +71,9 @@ const app = new Vue({
   },
   methods: {
     search() {
-      console.log('socket', 'emit', 'q', this.query)
-      socket.emit('q', this.query)
+      const data = { q: this.query, type: this.type }
+      console.log('socket', 'emit', 'q', data)
+      socket.emit('q', data)
     },
     setVolume() {
       const data = { volume: this.volume, id: guild }
@@ -82,6 +86,17 @@ const app = new Vue({
     },
     showError(id) {
       this.error = `${messages[id] || messages.UNKNOWN_ERROR} (${id})`
+    },
+    warning() {
+      if (this.type !== 'ytdl') return
+      alert([
+        'この機能は現在試験的に実装されているものです',
+        '検索、再生ともに時間がかかります',
+        'また処理開始時は負荷が高まる場合があり',
+        '音楽の再生が止まる可能性があるので',
+        '結果、またはエラーが帰ってくるまで',
+        '同じ操作を行わないでください',
+      ].join('\n'))
     },
   },
 })

@@ -1,4 +1,5 @@
 const ytdl = require('ytdl-core')
+const youtubedl = require('youtube-dl')
 
 class VoiceChannel {
   constructor(channel, callback) {
@@ -30,9 +31,11 @@ class VoiceChannel {
 
   loop() {
     this.playing = true
-    console.log(this.queue[0].id)
+    console.log('playing', this.queue[0].url, this.queue[0].type)
     this.setTitle(this.queue[0].title)
-    const stream = ytdl(this.queue[0].id, {filter: 'audioonly'})
+    const stream = this.queue[0].type === 'api'
+      ? ytdl(this.queue[0].url, {filter: 'audioonly'})
+      : youtubedl(this.queue[0].url, ['-x'])
     this.channel.join().then(connection => {
       this.dispatcher = connection.playStream(stream).on('end', () => {
         this.setTitle()
