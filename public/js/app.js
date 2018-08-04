@@ -101,11 +101,7 @@ socket.on('ready', data => {
 
 socket.on('result', data => {
   console.log('socket', 'on', 'result', data)
-  app.result = data.items.map(item => ({
-    thumbnail: item.snippet.thumbnails.medium.url,
-    title: item.snippet.title,
-    id: item.id.videoId,
-  }))
+  app.result = data
 })
 
 socket.on('list', data => {
