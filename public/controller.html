@@ -18,7 +18,7 @@
       <input type="text" v-model="query" v-focus>
       <input type="submit" value="Search!">
       <input type="range" max="100" v-model="volume" @input="setVolume">
-      <button @click="skip">Skip</button>
+      <input type="button" value="Skip" @click="skip">
       <p class="error" v-if="error">
         {{error}}
         <button @click="error=null">Close</button>
