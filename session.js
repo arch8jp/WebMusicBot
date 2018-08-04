@@ -1,9 +1,8 @@
-const { parsed: env } = require('dotenv').load()
 const session = require('express-session')
 const FileStore = require('session-file-store')(session)
 
 module.exports = session({
-  secret: env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   rolling: true,

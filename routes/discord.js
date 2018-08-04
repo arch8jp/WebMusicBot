@@ -4,14 +4,13 @@ const router = express.Router()
 const fetch = require('node-fetch')
 const btoa = require('btoa')
 const querystring = require('querystring')
-const { parsed: env } = require('dotenv').load()
 const url = require('url')
 
 const ENDPOINT = 'https://discordapp.com/api/v6/'
 const client = {
-  id: env.CLIENT_ID,
-  secret: env.CLIENT_SECRET,
-  callback: url.resolve(env.BASE_URL, '/callback'),
+  id: process.env.CLIENT_ID,
+  secret: process.env.CLIENT_SECRET,
+  callback: url.resolve(process.env.BASE_URL, '/callback'),
 }
 
 router.get('/login', (req, res) => {
