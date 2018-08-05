@@ -26,6 +26,7 @@ const app = new Vue({
     list: [],
     volume: 100,
     error: '',
+    repeat: false,
   },
   directives: {
     focus: {
@@ -84,6 +85,11 @@ const app = new Vue({
       console.log('socket', 'emit', 'skip', guild)
       socket.emit('skip', guild)
     },
+    setRepeat() {
+      const data = { repeat: this.repeat, id: guild }
+      console.log('socket', 'emit', 'repeat', data)
+      socket.emit('repeat', data)
+    },
     showError(id) {
       this.error = `${messages[id] || messages.UNKNOWN_ERROR} (${id})`
     },
@@ -133,4 +139,9 @@ socket.on('err', error => {
 socket.on('volume', volume => {
   // console.log('socket', 'on', 'volume', volume)
   app.volume = volume
+})
+
+socket.on('repeat', repeat => {
+  console.log('socket', 'on', 'repeat', repeat)
+  app.repeat = repeat
 })

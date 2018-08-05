@@ -23,6 +23,9 @@
       <input type="submit" value="Search!">
       <input type="range" max="150" v-model="volume" @input="setVolume">
       <input type="button" value="Skip" @click="skip">
+      <label>
+        <input type="checkbox" v-model="repeat" @change="setRepeat">Repeat
+      </label>
       <p class="error" v-if="error">
         {{error}}
         <input type="button" value="Close" @click="error=null">

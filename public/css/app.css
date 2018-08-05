@@ -78,6 +78,10 @@ body {
   color: #FF9999;
 }
 
-input[type=range] {
+input[type=range], input[type=checkbox] {
   vertical-align: middle;
+}
+
+label, input[type='checkbox'] {
+    cursor: pointer;
 }

@@ -10,6 +10,7 @@ class VoiceChannel {
     this.playing = false
     this.callback = callback
     this.volume = 100
+    this.repeat = false
   }
 
   add(data) {
@@ -40,6 +41,7 @@ class VoiceChannel {
       this.dispatcher = connection.playStream(stream).on('end', () => {
         this.setTitle()
         this.playing = false
+        if (this.repeat) this.queue.push(this.queue[0])
         this.queue.shift()
         this.callback(this.queue)
         if (this.queue[0]) this.loop()
@@ -60,6 +62,12 @@ class VoiceChannel {
       this.volume = volume
       resolve(volume)
     })
+  }
+
+  async setRepeat(repeat) {
+    this.repeat = repeat
+    console.log('repeat', repeat)
+    return repeat
   }
 
   skip() {

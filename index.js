@@ -62,6 +62,7 @@ io.sockets.on('connection', socket => {
     }
     socket.join(guild.id)
     socket.emit('volume', guilds.get(guild.id).volume)
+    socket.emit('repeat', guilds.get(guild.id).repeat)
     socket.emit('list', guilds.get(guild.id).queue)
     socket.emit('ready', {
       guild: guild.name,
@@ -96,6 +97,12 @@ io.sockets.on('connection', socket => {
     else guilds.get(data.id).setVolume(data.volume)
       .then(volume => socket.broadcast.to(data.id).emit('volume', volume))
       .catch(error => emitError(error))
+  })
+
+  socket.on('repeat', data => {
+    if (!guilds.has(data.id)) emitError('UNTREATED_CHANNEL')
+    else guilds.get(data.id).setRepeat(data.repeat)
+      .then(repeat => socket.broadcast.to(data.id).emit('repeat', repeat))
   })
 
   socket.on('skip', id => {
