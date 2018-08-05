@@ -33,13 +33,13 @@ class VoiceChannel {
   loop() {
     this.playing = true
     console.log('playing', this.queue[0].url, this.queue[0].type)
-    this.setTitle(this.queue[0].title)
+    // this.setTitle(this.queue[0].title)
     const stream = this.queue[0].type === 'api'
       ? ytdl(this.queue[0].url, {filter: 'audioonly'})
       : youtubedl(this.queue[0].url, ['-x'])
     this.channel.join().then(connection => {
       this.dispatcher = connection.playStream(stream).on('end', () => {
-        this.setTitle()
+        // this.setTitle()
         this.playing = false
         if (this.repeat) this.queue.push(this.queue[0])
         this.queue.shift()
@@ -78,13 +78,13 @@ class VoiceChannel {
     })
   }
 
-  setTitle(title) {
-    const me = this.guild.me
-    if (!me || !me.hasPermission('CHANGE_NICKNAME')) return
-    if (!title) return me.setNickname(null)
-    if (title.length > 28) title = title.slice(0, 25) + '...'
-    me.setNickname(title + 'を再生中')
-  }
+  // setTitle(title) {
+  //   const me = this.guild.me
+  //   if (!me || !me.hasPermission('CHANGE_NICKNAME')) return
+  //   if (!title) return me.setNickname(null)
+  //   if (title.length > 28) title = title.slice(0, 25) + '...'
+  //   me.setNickname(title + 'を再生中')
+  // }
 }
 
 module.exports = VoiceChannel
