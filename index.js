@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
   const isDiscordBot = (req.headers['user-agent'] || '').includes('Discordbot')
   if (isDiscordBot) return res.sendFile('discord.html', { root: __dirname })
   if (!req.session || !req.session.user) return res.redirect('/login')
+  if (!client.readyAt) return res.send('しばらく待ってからリロードしてください')
   const channel = client.channels.filter(channel => {
     return channel.type === 'voice' && channel.members.has(req.session.user.id)
   }).first()
