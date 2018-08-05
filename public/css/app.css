@@ -4,31 +4,27 @@ body {
   text-align: center;
 }
 
+#app {
+  max-width: 70%;
+  margin: 0 auto;
+}
+
 #results {
   list-style-type: none;
   padding: 0;
+  line-height: 0;
 }
 
 #results li {
   cursor: pointer;
 }
 
-#results li img {
-  float: left;
-  padding: 10px;
-}
-
-#results li div {
-  margin: 10px;
-}
-
 .wrapper {
   overflow-x: scroll;
-  overflow-y: hidden;
 }
 
 #list {
-  height: 72px;
+  height: 104px;
   white-space: nowrap;
   padding: 0;
   margin: 0;
@@ -37,12 +33,10 @@ body {
 .movie {
   display: inline-block;
   position: relative;
-  width: 120px;
-  height: 67.5px;
+  height: 100px;
 }
 
 .movie img {
-  width: 100%;
   height: 100%;
 }
 
@@ -56,6 +50,8 @@ body {
   width: 100%;
   height: 100%;
   opacity: 0;
+  line-height: normal;
+  white-space: normal;
 }
 
 .movie div.title:hover {
