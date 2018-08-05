@@ -27,12 +27,18 @@ app.get('/', (req, res) => {
   const isDiscordBot = (req.headers['user-agent'] || '').includes('Discordbot')
   if (isDiscordBot) return res.sendFile('discord.html', { root: __dirname })
   if (!req.session || !req.session.user) return res.redirect('/login')
-  if (!client.readyAt) return res.send('しばらく待ってからリロードしてください')
+  if (!client.readyAt) return res.send([
+    '起動中、しばらく待ってからリロードしてください',
+    'Starting now, Please wait a little and then reload',
+  ].join('<br>'))
   const channel = client.channels.filter(channel => {
     return channel.type === 'voice' && channel.members.has(req.session.user.id)
   }).first()
   if (channel) res.redirect('/controller/' + channel.id)
-  else res.send(client.user.tag + 'がいるサーバーのボイスチャンネルに参加してください')
+  else res.send([
+    `${client.user.tag}が参加できるボイスチャンネルに参加してからリロードしてください`,
+    `Join the voice channel that ${client.user.tag} can join, and reload!`,
+  ].join('<br>'))
 })
 
 io.use((socket, next) => {
