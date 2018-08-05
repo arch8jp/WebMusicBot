@@ -21,8 +21,14 @@ module.exports = {
       type: 'api',
     }))
   },
-  async ytdl(q) {
-    const args = [['--default-search', 'gvsearch10'], {maxBuffer: 1024 * 500}]
+  async google(q) {
+    return await this.ytdl(q, 'gvsearch')
+  },
+  async soundcloud(q) {
+    return await this.ytdl(q, 'scsearch')
+  },
+  async ytdl(q, search = 'gvsearch') {
+    const args = [['--default-search', search + '10'], {maxBuffer: 1024 * 500}]
     let info = await getInfo(q, ...args)
     if (!Array.isArray(info)) info = [info]
     return info.map(video => ({

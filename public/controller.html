@@ -17,7 +17,8 @@
     <form @submit.prevent="search">
       <select v-model="type" @change="warning">
         <option value="api">YouTube</option>
-        <option value="ytdl">Google</option>
+        <option value="google">Google</option>
+        <option value="soundcloud">SoundCloud</option>
       </select>
       <input type="text" v-model="query" v-focus>
       <input type="submit" value="Search!">
