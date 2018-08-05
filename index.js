@@ -37,7 +37,9 @@ app.get('/', (req, res) => {
   if (channel) res.redirect('/controller/' + channel.id)
   else res.send([
     `${client.user.tag}が参加できるボイスチャンネルに参加してからリロードしてください`,
-    `Join the voice channel that ${client.user.tag} can join, and reload!`,
+    `Join the voice channel that ${client.user.tag} can join, and then reload`,
+    '招待URL / Invite link',
+    'https://discord.now.sh/' + env.CLIENT_ID,
   ].join('<br>'))
 })
 
