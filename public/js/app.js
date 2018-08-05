@@ -54,16 +54,20 @@ const app = new Vue({
           socket.emit('remove', data)
         },
         open() {
-          window.open('https://www.youtube.com/watch?v=' + this.item.id, '_blank')
+          window.open(this.item.url, '_blank')
+        },
+        handle(e) {
+          if (e.ctrlKey) this.open()
+          else this.add()
         },
       },
       template: `
-        <li class="movie" @click="add" v-if="result === ''" @click.ctrl="open">
+        <li class="movie" @click="handle($event)" v-if="result === ''">
           <img :src="item.thumbnail" :alt="item.title">
           <div class="title">{{item.title}}</div>
         </li>
-        <li class="movie" v-else>
-          <img :src="item.thumbnail" :alt="item.title" @click.ctrl="open">
+        <li class="movie" @click="handle($event)" v-else>
+          <img :src="item.thumbnail" :alt="item.title">
           <div class="title">{{item.title}}</div>
           <div id="remove" @click="remove">X</div>
         </li>

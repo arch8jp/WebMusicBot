@@ -34,7 +34,7 @@ module.exports = {
     return info.map(video => ({
       thumbnail: video.thumbnail,
       title: video.title,
-      url: video.url,
+      url: video.webpage_url,
       type: 'ytdl',
     }))
   },
