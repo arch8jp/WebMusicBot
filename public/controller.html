@@ -25,7 +25,7 @@
       <input type="button" value="Skip" @click="skip">
       <p class="error" v-if="error">
         {{error}}
-        <button @click="error=null">Close</button>
+        <input type="button" value="Close" @click="error=null">
       </p>
     </form>
     <hr>
