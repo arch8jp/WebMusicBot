@@ -103,13 +103,13 @@ const app = new Vue({
 
 socket.on('connect', () => {
   console.log('socket', 'connect')
-  app.loading = false
   console.log('socket', 'emit', 'init', channel)
   socket.emit('init', channel)
 })
 
 socket.on('ready', data => {
   console.log('socket', 'on', 'ready', data)
+  app.loading = false
   app.name = data.guild + ' / ' + data.channel
   guild = data.id
 })
