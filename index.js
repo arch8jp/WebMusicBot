@@ -5,17 +5,14 @@ const express = require('express')
 const app = express()
 const server = app.listen(Number(env.SERVER_PORT))
 const io = require('socket.io').listen(server)
-const session = require('./session')
 const search = require('./search')
 const VoiceChannel = require('./VoiceChannel')
 const guilds = new Discord.Collection()
 
 if (env.DEV) app.use(require('morgan')('dev'))
 
-app.use(session)
 app.use(express.static('public'))
 app.use(require('./routes/index'))
-app.use(require('./routes/discord'))
 
 app.get('/status', (req, res) => res.send({
   guilds: client.guilds.size,
@@ -26,39 +23,18 @@ app.get('/status', (req, res) => res.send({
 app.get('/', (req, res) => {
   const isDiscordBot = (req.headers['user-agent'] || '').includes('Discordbot')
   if (isDiscordBot) return res.sendFile('discord.html', { root: __dirname })
-  if (!req.session || !req.session.user) return res.redirect('/login')
-  if (!client.readyAt) return res.send([
-    '起動中、しばらく待ってからリロードしてください',
-    'Starting now, Please wait a little and then reload',
-  ].join('<br>'))
-  const channel = client.channels.filter(channel => {
-    return channel.type === 'voice' && channel.members.has(req.session.user.id)
-  }).first()
-  if (channel) res.redirect('/controller/' + channel.id)
-  else res.send([
-    `${client.user.tag}が参加できるボイスチャンネルに参加してからリロードしてください`,
-    `Join the voice channel that ${client.user.tag} can join, and then reload`,
-    '招待URL / Invite link',
-    'https://discord.now.sh/' + env.CLIENT_ID,
-  ].join('<br>'))
-})
-
-io.use((socket, next) => {
-  session(socket.request, socket.request.res, next)
+  res.send('WebMusicController')
 })
 
 io.sockets.on('connection', socket => {
   const emitError = id => socket.emit('err', id)
   socket.on('init', id => {
-    const session = socket.request.session
-    if (!session.user || !session.user.id) return emitError('UNAUTHORIZED')
     const channel = client.channels.get(id)
     if (!channel) return emitError('INVAILD_CHANNEL')
     if (channel.type !== 'voice') return emitError('INVAILD_CHANNEL_TYPE')
     if (channel.full) return emitError('CHANNEL_IS_FULL')
     if (!channel.joinable) return emitError('MISSING_PERMISSION')
     if (!channel.speakable) return emitError('MISSING_PERMISSION')
-    if (!channel.members.has(session.user.id)) return emitError('USER_NOT_JOINED')
     const guild = channel.guild
     // 同じギルドのボイチャに参加済み
     if (guilds.has(guild.id)) {
