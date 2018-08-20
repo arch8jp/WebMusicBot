@@ -12,19 +12,12 @@ const guilds = new Discord.Collection()
 if (env.DEV) app.use(require('morgan')('dev'))
 
 app.use(express.static('public'))
-app.use(require('./routes/index'))
 
 app.get('/status', (req, res) => res.send({
   guilds: client.guilds.size,
   playing: guilds.filter(e => e.playing).size,
   loadedGuilds: guilds.size,
 }))
-
-app.get('/', (req, res) => {
-  const isDiscordBot = (req.headers['user-agent'] || '').includes('Discordbot')
-  if (isDiscordBot) return res.sendFile('discord.html', { root: __dirname })
-  res.send('WebMusicController')
-})
 
 io.sockets.on('connection', socket => {
   const emitError = id => socket.emit('err', id)

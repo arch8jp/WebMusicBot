@@ -1,6 +1,6 @@
 /* global io: falss, Vue: false */
 const socket = io.connect()
-const channel = location.href.split('/').pop() // location.hash.slice(1)
+const channel = location.hash.slice(1)
 let guild
 
 const messages = {
