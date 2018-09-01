@@ -97,3 +97,4 @@ client.on('ready', () => {
 client.login(env.DISCORD_TOKEN)
 
 process.on('unhandledRejection', console.log)
+process.on('uncaughtException', console.log)
