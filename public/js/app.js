@@ -80,25 +80,17 @@ const app = new Vue({
       console.log('socket', 'emit', 'q', data)
       socket.emit('q', data)
     },
-    setVolume() {
-      const data = { volume: this.volume, id: guild }
-      // console.log('socket', 'emit', 'volume', data)
-      socket.emit('volume', data)
-    },
     skip() {
       console.log('socket', 'emit', 'skip', guild)
       socket.emit('skip', guild)
     },
-    setRepeat() {
-      const data = { repeat: this.repeat, id: guild }
-      console.log('socket', 'emit', 'repeat', data)
-      socket.emit('repeat', data)
-    },
     showError(id) {
       this.error = `${messages[id] || messages.UNKNOWN_ERROR} (${id})`
     },
-    warning() {
-      if (this.type !== 'ytdl') return
+  },
+  watch: {
+    type(type) {
+      if (type === 'api') return
       alert([
         'この機能は現在試験的に実装されているものです',
         '検索、再生ともに時間がかかります',
@@ -107,6 +99,16 @@ const app = new Vue({
         '結果、またはエラーが帰ってくるまで',
         '同じ操作を行わないでください',
       ].join('\n'))
+    },
+    repeat(repeat) {
+      const data = { repeat, id: guild }
+      console.log('socket', 'emit', 'repeat', data)
+      socket.emit('repeat', data)
+    },
+    volume(volume) {
+      const data = { volume, id: guild }
+      // console.log('socket', 'emit', 'volume', data)
+      socket.emit('volume', data)
     },
   },
 })

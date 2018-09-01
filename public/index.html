@@ -17,18 +17,16 @@
     </ul></div>
     <hr>
     <form @submit.prevent="search">
-      <select v-model="type" @change="warning">
+      <select v-model="type">
         <option value="api">YouTube</option>
         <option value="google">Google</option>
         <option value="soundcloud">SoundCloud</option>
       </select>
       <input type="text" v-model="query" v-focus>
       <input type="submit" value="Search!">
-      <input type="range" max="150" v-model="volume" @input="setVolume">
+      <input type="range" max="150" v-model="volume">
       <input type="button" value="Skip" @click="skip">
-      <label>
-        <input type="checkbox" v-model="repeat" @change="setRepeat">Repeat
-      </label>
+      <label><input type="checkbox" v-model="repeat">Repeat</label>
       <p class="error" v-if="error">
         {{error}}
         <input type="button" value="Close" @click="error=null">
