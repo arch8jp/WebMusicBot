@@ -13,7 +13,7 @@
     <h1>{{name}}</h1>
     <hr>
     <div class="wrapper"><ul id="list">
-      <movie v-for="(item, i) of list" :item="item" :index="i">
+      <movie v-for="(item, i) of list" :item="item" :index="i" :key="item.id">
     </ul></div>
     <hr>
     <form @submit.prevent="search">
@@ -33,7 +33,7 @@
       </p>
     </form>
     <hr>
-    <ul id="results"><movie v-for="item of result" :item="item" result></ul>
+    <ul id="results"><movie v-for="item of result" :item="item" :key="item.id" result></ul>
     <div id="loading" v-if="loading"><p>読み込み中...</p></div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>

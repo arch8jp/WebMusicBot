@@ -36,6 +36,7 @@ module.exports = {
       title: video.title,
       url: video.webpage_url,
       type: 'ytdl',
+      id: video.display_id,
     }))
   },
 }
