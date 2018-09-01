@@ -13,6 +13,7 @@ const messages = {
   ALREADY_JOINED: 'すでに参加しています',
   UNTREATED_CHANNEL: 'チャンネルが読み込まれていません',
   INVAILD_TYPE: 'タイプが正しくありません',
+  UNKNOWN_ERROR: '不明なエラー',
 }
 
 const app = new Vue({
