@@ -8,19 +8,21 @@ const guilds = new Discord.Collection()
 
 io.sockets.on('connection', socket => {
   const emitError = id => socket.emit('err', id)
-  socket.on('status', socket.emit('status', {
+  socket.on('status', () => socket.emit('status', {
     guilds: client.guilds.size,
     playing: guilds.filter(e => e.playing).size,
     loadedGuilds: guilds.size,
   }))
 
-  socket.on('init', id => {
-    const channel = client.channels.get(id)
+  socket.on('init', ({ channel: _channel, user: _user }) => {
+    if (!_user) return emitError('UNAUTHORIZED')
+    const channel = client.channels.get(_channel)
     if (!channel) return emitError('INVAILD_CHANNEL')
     if (channel.type !== 'voice') return emitError('INVAILD_CHANNEL_TYPE')
     if (channel.full) return emitError('CHANNEL_IS_FULL')
     if (!channel.joinable) return emitError('MISSING_PERMISSION')
     if (!channel.speakable) return emitError('MISSING_PERMISSION')
+    if (!channel.members.has(_user)) return emitError('USER_NOT_JOINED')
     const guild = channel.guild
     // 同じギルドのボイチャに参加済み
     if (guilds.has(guild.id)) {
