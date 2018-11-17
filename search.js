@@ -19,6 +19,8 @@ module.exports = {
       title: item.snippet.title,
       url: 'https://www.youtube.com/watch?v=' + item.id.videoId,
       type: 'api',
+      id: item.id.videoId,
+      channel: item.snippet.channelTitle,
     }))
   },
   async google(q) {
