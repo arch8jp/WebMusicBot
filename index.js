@@ -1,26 +1,19 @@
 const { parsed: env } = require('dotenv').load()
 const Discord = require('discord.js')
 const client = new Discord.Client()
-const express = require('express')
-const app = express()
-const server = app.listen(Number(env.SERVER_PORT))
-const io = require('socket.io').listen(server)
+const io = require('socket.io')(Number(env.SERVER_PORT))
 const search = require('./search')
 const VoiceChannel = require('./VoiceChannel')
 const guilds = new Discord.Collection()
 
-if (env.DEV) app.use(require('morgan')('dev'))
-
-app.use(express.static('public'))
-
-app.get('/status', (req, res) => res.send({
-  guilds: client.guilds.size,
-  playing: guilds.filter(e => e.playing).size,
-  loadedGuilds: guilds.size,
-}))
-
 io.sockets.on('connection', socket => {
   const emitError = id => socket.emit('err', id)
+  socket.on('status', socket.emit('status', {
+    guilds: client.guilds.size,
+    playing: guilds.filter(e => e.playing).size,
+    loadedGuilds: guilds.size,
+  }))
+
   socket.on('init', id => {
     const channel = client.channels.get(id)
     if (!channel) return emitError('INVAILD_CHANNEL')
@@ -96,5 +89,5 @@ client.on('ready', () => {
 
 client.login(env.DISCORD_TOKEN)
 
-process.on('unhandledRejection', console.log)
-process.on('uncaughtException', console.log)
+process.on('unhandledRejection', err => console.log(err))
+process.on('uncaughtException', err => console.log(err))
