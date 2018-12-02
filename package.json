@@ -13,7 +13,6 @@
     "node-opus": "^0.3.0",
     "socket.io": "^2.0.4",
     "sodium": "^3.0.1",
-    "youtube-dl": "^1.12.2",
     "ytdl-core": "^0.20.4"
   },
   "devDependencies": {

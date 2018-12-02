@@ -44,9 +44,8 @@ io.sockets.on('connection', socket => {
     })
   })
 
-  socket.on('q', data => {
-    if (!search[data.type]) return emitError('INVAILD_TYPE')
-    search[data.type](data.q)
+  socket.on('q', q => {
+    search(q)
       .then(data => socket.emit('result', data))
       .catch(error => emitError(error))
   })
