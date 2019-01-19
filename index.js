@@ -44,27 +44,31 @@ io.sockets.on('connection', socket => {
           guild.id,
           new VoiceChannel(channel, queue => {
             // io.to(guild.id).emit('list', queue)
-            io.emit('room', { room: guild.id, emit: 'list', data: queue })
+            io.sockets.emit('room', {
+              room: guild.id,
+              emit: 'list',
+              data: queue,
+            })
           })
         )
       }
       socket.join(guild.id)
-      io.emit('socketid', {
+      io.sockets.emit('socketid', {
         socketid: _socketid,
         emit: 'volume',
         data: guilds.get(guild.id).volume,
       })
-      io.emit('socketid', {
+      io.sockets.emit('socketid', {
         socketid: _socketid,
         emit: 'repeat',
         data: guilds.get(guild.id).repeat,
       })
-      io.emit('socketid', {
+      io.sockets.emit('socketid', {
         socketid: _socketid,
         emit: 'list',
         data: guilds.get(guild.id).list,
       })
-      io.emit('socketid', {
+      io.sockets.emit('socketid', {
         socketid: _socketid,
         emit: 'ready',
         data: {
@@ -89,7 +93,11 @@ io.sockets.on('connection', socket => {
         .get(data.guild)
         .add(data)
         .then(list =>
-          io.emit('room', { room: data.guild, emit: 'list', data: list })
+          io.sockets.emit('room', {
+            room: data.guild,
+            emit: 'list',
+            data: list,
+          })
         ) // io.to(data.guild).emit('list', list))
         .catch(error => emitError(error))
   })
@@ -101,7 +109,11 @@ io.sockets.on('connection', socket => {
         .get(data.id)
         .remove(data.index)
         .then(list =>
-          io.emit('room', { room: data.guild, emit: 'list', data: list })
+          io.sockets.emit('room', {
+            room: data.guild,
+            emit: 'list',
+            data: list,
+          })
         ) // io.to(data.id).emit('list', list))
         .catch(error => emitError(error))
   })
@@ -113,7 +125,7 @@ io.sockets.on('connection', socket => {
         .get(data.id)
         .setVolume(data.volume)
         .then(volume =>
-          io.emit('room', {
+          io.sockets.emit('room', {
             room: data.guild,
             emit: 'volume',
             data: volume,
@@ -130,7 +142,7 @@ io.sockets.on('connection', socket => {
         .get(data.id)
         .setRepeat(data.repeat)
         .then(repeat =>
-          io.emit('room', {
+          io.sockets.emit('room', {
             room: data.guild,
             emit: 'repeat',
             data: repeat,
