@@ -23,7 +23,7 @@ io.sockets.on('connection', socket => {
 
   socket.on(
     'init',
-    ({ channel: _channel, user: _user, socketid: _socketid }) => {
+    ({ socketid: _socketid, data: { channel: _channel, user: _user } }) => {
       if (!_user) return emitError(_socketid, 'UNAUTHORIZED')
       const channel = client.channels.get(_channel)
       if (!channel) return emitError(_socketid, 'INVAILD_CHANNEL')
@@ -152,7 +152,7 @@ io.sockets.on('connection', socket => {
         ) // socket.broadcast.to(data.id).emit('repeat', repeat))
   })
 
-  socket.on('skip', ({ socketid: _socketid, id }) => {
+  socket.on('skip', ({ socketid: _socketid, data: id }) => {
     if (!guilds.has(id)) emitError(_socketid, 'UNTREATED_CHANNEL')
     else
       guilds
