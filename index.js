@@ -2,7 +2,6 @@ const { parsed: env } = require('dotenv').load()
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const io = require('socket.io')(Number(env.SERVER_PORT))
-const search = require('./search')
 const VoiceChannel = require('./VoiceChannel')
 const guilds = new Discord.Collection()
 
@@ -25,19 +24,21 @@ io.sockets.on('connection', socket => {
   socket.on(
     'init',
     ({ channel: _channel, user: _user, socketid: _socketid }) => {
-      if (!_user) return emitError('UNAUTHORIZED')
+      if (!_user) return emitError(_socketid, 'UNAUTHORIZED')
       const channel = client.channels.get(_channel)
-      if (!channel) return emitError('INVAILD_CHANNEL')
-      if (channel.type !== 'voice') return emitError('INVAILD_CHANNEL_TYPE')
-      if (channel.full) return emitError('CHANNEL_IS_FULL')
-      if (!channel.joinable) return emitError('MISSING_PERMISSION')
-      if (!channel.speakable) return emitError('MISSING_PERMISSION')
-      if (!channel.members.has(_user)) return emitError('USER_NOT_JOINED')
+      if (!channel) return emitError(_socketid, 'INVAILD_CHANNEL')
+      if (channel.type !== 'voice')
+        return emitError(_socketid, 'INVAILD_CHANNEL_TYPE')
+      if (channel.full) return emitError(_socketid, 'CHANNEL_IS_FULL')
+      if (!channel.joinable) return emitError(_socketid, 'MISSING_PERMISSION')
+      if (!channel.speakable) return emitError(_socketid, 'MISSING_PERMISSION')
+      if (!channel.members.has(_user))
+        return emitError(_socketid, 'USER_NOT_JOINED')
       const guild = channel.guild
       // 同じギルドのボイチャに参加済み
       if (guilds.has(guild.id)) {
         if (guilds.get(guild.id).id !== channel.id)
-          return emitError('ALREADY_JOINED')
+          return emitError(_socketid, 'ALREADY_JOINED')
       } else {
         // Botが参加していない
         guilds.set(
@@ -80,14 +81,14 @@ io.sockets.on('connection', socket => {
     }
   )
 
-  socket.on('q', q => {
-    search(q)
-      .then(data => socket.emit('result', data))
-      .catch(error => emitError(error))
-  })
+  // socket.on('q', q => {
+  //   search(q)
+  //     .then(data => socket.emit('result', data))
+  //     .catch(error => emitError(_socketid, error))
+  // })
 
-  socket.on('add', data => {
-    if (!guilds.has(data.guild)) emitError('UNTREATED_CHANNEL')
+  socket.on('add', ({ socketid: _socketid, data }) => {
+    if (!guilds.has(data.guild)) emitError(_socketid, 'UNTREATED_CHANNEL')
     else
       guilds
         .get(data.guild)
@@ -99,11 +100,11 @@ io.sockets.on('connection', socket => {
             data: list,
           })
         ) // io.to(data.guild).emit('list', list))
-        .catch(error => emitError(error))
+        .catch(error => emitError(_socketid, error))
   })
 
-  socket.on('remove', data => {
-    if (!guilds.has(data.id)) emitError('UNTREATED_CHANNEL')
+  socket.on('remove', ({ socketid: _socketid, data }) => {
+    if (!guilds.has(data.id)) emitError(_socketid, 'UNTREATED_CHANNEL')
     else
       guilds
         .get(data.id)
@@ -115,11 +116,11 @@ io.sockets.on('connection', socket => {
             data: list,
           })
         ) // io.to(data.id).emit('list', list))
-        .catch(error => emitError(error))
+        .catch(error => emitError(_socketid, error))
   })
 
-  socket.on('volume', data => {
-    if (!guilds.has(data.id)) emitError('UNTREATED_CHANNEL')
+  socket.on('volume', ({ socketid: _socketid, data }) => {
+    if (!guilds.has(data.id)) emitError(_socketid, 'UNTREATED_CHANNEL')
     else
       guilds
         .get(data.id)
@@ -132,11 +133,11 @@ io.sockets.on('connection', socket => {
             selfExclude: true,
           })
         ) // socket.broadcast.to(data.id).emit('volume', volume))
-        .catch(error => emitError(error))
+        .catch(error => emitError(_socketid, error))
   })
 
-  socket.on('repeat', data => {
-    if (!guilds.has(data.id)) emitError('UNTREATED_CHANNEL')
+  socket.on('repeat', ({ socketid: _socketid, data }) => {
+    if (!guilds.has(data.id)) emitError(_socketid, 'UNTREATED_CHANNEL')
     else
       guilds
         .get(data.id)
@@ -151,13 +152,13 @@ io.sockets.on('connection', socket => {
         ) // socket.broadcast.to(data.id).emit('repeat', repeat))
   })
 
-  socket.on('skip', id => {
-    if (!guilds.has(id)) emitError('UNTREATED_CHANNEL')
+  socket.on('skip', ({ socketid: _socketid, id }) => {
+    if (!guilds.has(id)) emitError(_socketid, 'UNTREATED_CHANNEL')
     else
       guilds
         .get(id)
         .skip()
-        .catch(error => emitError(error))
+        .catch(error => emitError(_socketid, error))
   })
 })
 
